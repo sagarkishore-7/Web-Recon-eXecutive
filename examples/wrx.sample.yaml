@@ -1,0 +1,145 @@
+default_concurrency: 4
+default_scan_profile: safe
+
+timeouts:
+  subdomains: 180
+  probe: 240
+  crawl: 300
+  fuzz: 300
+  scan: 420
+  zap_baseline: 900
+
+rate_limits:
+  fuzz: 20
+
+fuzz_context:
+  enabled: true
+  max_words: 120
+
+tool_args:
+  subdomains: ["-silent"]
+  probe: ["-silent", "-json"]
+  crawl: ["-silent", "-jsonl"]
+  fuzz: []
+  scan: ["-silent", "-jsonl"]
+
+zap:
+  docker_image: owasp/zap2docker-stable
+  baseline_args: ["-m", "3"]
+  timeout_seconds: 900
+  localhost_only: false
+
+triage:
+  enabled: false
+  cluster_by: signature
+  ollama:
+    enabled: false
+    base_url: http://127.0.0.1:11434
+    model: qwen2.5:7b
+    temperature: 0.1
+    timeout_seconds: 30
+
+scan_profiles:
+  safe:
+    description: Conservative defaults for repeatable recon.
+    nuclei_args: ["-rate-limit", "12", "-timeout", "8", "-severity", "critical,high,medium"]
+    nuclei_timeout_seconds: 300
+    zap_baseline_args: ["-m", "2"]
+    zap_timeout_seconds: 600
+    nuclei_allow_tags: ["misconfig", "tech"]
+  balanced:
+    description: Balanced signal and depth.
+    nuclei_args: ["-rate-limit", "20", "-timeout", "10", "-severity", "critical,high,medium"]
+    nuclei_timeout_seconds: 600
+    zap_baseline_args: ["-m", "3"]
+    zap_timeout_seconds: 900
+    nuclei_allow_tags: ["misconfig", "tech", "exposure"]
+  deep:
+    description: Deeper passive coverage and broader severities.
+    nuclei_args: ["-rate-limit", "25", "-timeout", "12", "-severity", "critical,high,medium,low"]
+    nuclei_timeout_seconds: 900
+    zap_baseline_args: ["-m", "5"]
+    zap_timeout_seconds: 1200
+    nuclei_allow_tags: ["misconfig", "tech", "exposure", "cve"]
+
+presets:
+  demo:
+    description: Safe localhost demo against OWASP Juice Shop on http://localhost:3000.
+    concurrency: 2
+    scan_profile: safe
+    seed_hosts: ["http://localhost:3000"]
+    stages:
+      subdomains: false
+      probe: true
+      crawl: true
+      fuzz: false
+      scan: false
+      zap_baseline: true
+      report: true
+    tool_args:
+      probe: ["-silent", "-json", "-no-color"]
+      crawl: ["-silent", "-jsonl", "-depth", "2", "-concurrency", "5", "-timeout", "8"]
+      scan: ["-silent", "-jsonl", "-rate-limit", "20", "-timeout", "10", "-severity", "critical,high"]
+    zap:
+      docker_image: owasp/zap2docker-stable
+      baseline_args: ["-m", "3"]
+      timeout_seconds: 900
+      localhost_only: true
+    timeouts:
+      probe: 120
+      crawl: 90
+      scan: 120
+      zap_baseline: 900
+
+  quick:
+    description: Fast signal collection for triage.
+    concurrency: 3
+    scan_profile: safe
+    stages:
+      subdomains: true
+      probe: true
+      crawl: false
+      fuzz: false
+      scan: true
+      zap_baseline: false
+      report: true
+    tool_args:
+      scan: ["-severity", "critical,high"]
+
+  bounty:
+    description: Balanced preset for bug bounty workflows.
+    concurrency: 5
+    scan_profile: balanced
+    stages:
+      subdomains: true
+      probe: true
+      crawl: true
+      fuzz: true
+      scan: true
+      zap_baseline: false
+      report: true
+    tool_args:
+      scan: ["-severity", "critical,high,medium"]
+    timeouts:
+      scan: 900
+
+  deep:
+    description: Thorough but slower reconnaissance pass.
+    concurrency: 8
+    scan_profile: deep
+    stages:
+      subdomains: true
+      probe: true
+      crawl: true
+      fuzz: true
+      scan: true
+      zap_baseline: false
+      report: true
+    tool_args:
+      crawl: ["-depth", "4"]
+      scan: ["-severity", "critical,high,medium,low"]
+    timeouts:
+      crawl: 600
+      scan: 900
+    rate_limits:
+      fuzz: 10

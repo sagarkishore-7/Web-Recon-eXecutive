@@ -1,0 +1,1926 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WRX GUI</title>
+  <style>
+    :root {
+      --bg: #f3f7fa;
+      --grid-a: rgba(7, 124, 144, 0.08);
+      --grid-b: rgba(200, 76, 45, 0.06);
+      --surface: #ffffff;
+      --surface-2: #f7fcff;
+      --line: #d4e3ea;
+      --ink: #112630;
+      --muted: #526873;
+      --accent: #027c90;
+      --accent-2: #00a8b5;
+      --accent-3: #ff7f50;
+      --focus: #0b7285;
+      --ok: #0f766e;
+      --warn: #ca8a04;
+      --bad: #b42318;
+      --new: #157a6e;
+      --removed: #b23a48;
+      --hero-a: #0f4555;
+      --hero-b: #007f8c;
+      --hero-c: #02a3b4;
+      --shadow: 0 16px 28px rgba(8, 34, 42, 0.11);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(120deg, var(--grid-a) 1px, transparent 1px) 0 0/22px 22px,
+        linear-gradient(0deg, var(--grid-a) 1px, transparent 1px) 0 0/22px 22px,
+        radial-gradient(circle at 0% 0%, var(--grid-b), transparent 42%),
+        radial-gradient(circle at 100% -10%, rgba(2, 168, 181, 0.12), transparent 46%),
+        var(--bg);
+      font-family: "Avenir Next", "Segoe UI", "Nunito Sans", sans-serif;
+      line-height: 1.35;
+      min-height: 100vh;
+    }
+
+    .shell {
+      width: min(1380px, calc(100% - 28px));
+      margin: 14px auto 24px;
+      animation: show-up 260ms ease-out;
+    }
+
+    @keyframes show-up {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero {
+      border-radius: var(--radius);
+      background: linear-gradient(125deg, var(--hero-a), var(--hero-b), var(--hero-c));
+      color: #ecfeff;
+      box-shadow: var(--shadow);
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 14px;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -50px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      filter: blur(8px);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 1.42rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero p {
+      margin: 7px 0 0;
+      color: #d8f8ff;
+      max-width: 700px;
+      font-size: 0.95rem;
+    }
+
+    .hero .ver {
+      font-weight: 700;
+      color: #ccfeff;
+      font-size: 0.9rem;
+      z-index: 1;
+    }
+
+    .layout {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .panel { padding: 12px; }
+
+    .panel h2 {
+      margin: 0 0 8px;
+      color: #095569;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.78rem;
+    }
+
+    .sidebar-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .controls label {
+      display: block;
+      margin-top: 8px;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 0.73rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    select, input[type="text"], input[type="number"], textarea {
+      width: 100%;
+      border: 1px solid #b8ccd6;
+      border-radius: 10px;
+      background: #fdfefe;
+      color: var(--ink);
+      padding: 8px 9px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 120ms ease, box-shadow 120ms ease;
+    }
+
+    select:focus, input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px rgba(11, 114, 133, 0.18);
+    }
+
+    .checkline {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: #35555f;
+    }
+
+    .btn-row {
+      margin-top: 9px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    button, .btn-link {
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-size: 0.84rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 120ms ease, opacity 120ms ease, background-color 120ms ease;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    button:hover, .btn-link:hover { transform: translateY(-1px); }
+    button:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+
+    .primary { background: var(--accent); color: #f8ffff; }
+    .secondary { background: #f0f8fa; border-color: #bbd7de; color: #113944; }
+    .danger { background: #fee8eb; border-color: #f6c4cb; color: #8f1d2d; }
+    .warm { background: #fff3e8; border-color: #f4d1b5; color: #8a4c0e; }
+
+    .status-line {
+      margin-top: 8px;
+      font-size: 0.81rem;
+      color: var(--muted);
+      min-height: 18px;
+    }
+
+    .run-list, .job-list {
+      max-height: 195px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fbfeff;
+    }
+
+    .run-item, .job-item {
+      border-bottom: 1px solid var(--line);
+      padding: 8px 9px;
+      cursor: pointer;
+      transition: background-color 110ms ease;
+      font-size: 0.82rem;
+    }
+
+    .run-item:last-child, .job-item:last-child { border-bottom: 0; }
+    .run-item:hover, .job-item:hover { background: #edf7fb; }
+    .run-item.active, .job-item.active { background: #dcf3f9; }
+    .run-item strong, .job-item strong { display: block; color: #11404c; }
+
+    .badge {
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.71rem;
+      text-transform: uppercase;
+      color: #fff;
+      letter-spacing: 0.03em;
+    }
+
+    .badge.completed { background: #168f75; }
+    .badge.running, .badge.queued { background: #0f6fbe; }
+    .badge.error { background: #ad2831; }
+    .badge.cancelled { background: #7b8794; }
+
+    .main-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 9px;
+    }
+
+    .kpi {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px;
+      background: linear-gradient(160deg, #ffffff, #f4fbff);
+    }
+
+    .kpi span {
+      display: block;
+      color: #4e6b74;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.7rem;
+    }
+
+    .kpi strong {
+      color: #0f4f5f;
+      font-size: 1.28rem;
+      line-height: 1.1;
+    }
+
+    .meta-strip {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 0.82rem;
+      color: #3f5f69;
+    }
+
+    .stage-pills {
+      margin-top: 9px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .stage-pill {
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 0.72rem;
+      border: 1px solid #bdd3db;
+      background: #f1f7fa;
+      color: #26454f;
+    }
+
+    .stage-pill.completed { border-color: #a8e2c8; background: #edfbf3; color: #166349; }
+    .stage-pill.error { border-color: #f3b4bd; background: #fff0f2; color: #8e1d2d; }
+    .stage-pill.disabled, .stage-pill.skipped { border-color: #d5dee4; background: #f4f6f8; color: #55656f; }
+    .stage-pill.running, .stage-pill.queued, .stage-pill.resumed { border-color: #bcd8f7; background: #edf4ff; color: #194a85; }
+
+    .viz-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 10px;
+    }
+
+    .viz-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface-2);
+      padding: 10px;
+    }
+
+    .viz-card h3 {
+      margin: 0 0 7px;
+      font-size: 0.81rem;
+      text-transform: uppercase;
+      color: #0d5667;
+      letter-spacing: 0.04em;
+    }
+
+    .chart-wrap {
+      border: 1px solid #ccdde4;
+      border-radius: 10px;
+      background: #ffffff;
+      padding: 6px;
+      min-height: 210px;
+    }
+
+    .chart-wrap svg {
+      width: 100%;
+      height: 210px;
+      display: block;
+    }
+
+    .legend {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+      font-size: 0.73rem;
+      color: #395a64;
+    }
+
+    .legend .key {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .legend .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .stack-bars {
+      display: grid;
+      gap: 7px;
+      margin-top: 3px;
+    }
+
+    .stack-row {
+      display: grid;
+      grid-template-columns: 95px 1fr 38px;
+      gap: 7px;
+      align-items: center;
+      font-size: 0.76rem;
+      color: #37515b;
+    }
+
+    .bar {
+      border-radius: 999px;
+      height: 11px;
+      background: #e8f0f4;
+      overflow: hidden;
+    }
+
+    .bar > span {
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .tech-cloud {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .tech-chip {
+      border-radius: 999px;
+      border: 1px solid #c6dce3;
+      background: #f4fbfd;
+      color: #1c5561;
+      padding: 3px 9px;
+      font-size: 0.74rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+      font-size: 0.83rem;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 8px;
+      text-align: left;
+      word-break: break-word;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f3f9fb;
+      color: #1f4954;
+      font-size: 0.73rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .stage-table td {
+      text-align: center;
+      font-size: 0.72rem;
+      padding: 6px;
+    }
+
+    .status-cell {
+      border-radius: 7px;
+      color: #fff;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      font-size: 0.67rem;
+      padding: 4px 6px;
+      display: inline-block;
+      min-width: 68px;
+    }
+
+    .status-cell.completed { background: #168f75; }
+    .status-cell.error { background: #b42318; }
+    .status-cell.disabled, .status-cell.skipped { background: #7c8b96; }
+    .status-cell.running, .status-cell.queued, .status-cell.resumed { background: #1d6cc2; }
+    .status-cell.missing { background: #9aa8b2; }
+
+    .tab-row {
+      margin-bottom: 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .tab-btn {
+      background: #edf7fa;
+      border-color: #bdd8df;
+      color: #204751;
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #f6ffff;
+      border-color: var(--accent);
+    }
+
+    .hidden { display: none !important; }
+
+    .sev {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      color: #fff;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .sev.critical, .sev.high { background: #a52a2a; }
+    .sev.medium { background: #ca8a04; }
+    .sev.low { background: #0e7490; }
+    .sev.info, .sev.informational, .sev.unknown { background: #52667a; }
+
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .diff-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(246, 253, 255, 0.96)),
+        linear-gradient(100deg, rgba(21, 122, 110, 0.15), rgba(178, 58, 72, 0.15));
+    }
+
+    .diff-card h4 {
+      margin: 0 0 6px;
+      font-size: 0.87rem;
+      color: #124653;
+    }
+
+    .diff-kpi {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      font-size: 0.72rem;
+      border-radius: 999px;
+      padding: 2px 8px;
+      color: #fff;
+    }
+
+    .chip.new { background: var(--new); }
+    .chip.removed { background: var(--removed); }
+
+    .spark {
+      display: flex;
+      height: 8px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #e9f1f3;
+    }
+
+    .spark .new { background: rgba(21, 122, 110, 0.8); }
+    .spark .removed { background: rgba(178, 58, 72, 0.85); }
+
+    details {
+      border: 1px dashed #bfd6de;
+      border-radius: 10px;
+      padding: 7px;
+      margin-top: 8px;
+      background: #fcfeff;
+    }
+
+    details summary {
+      cursor: pointer;
+      color: #214f59;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .diff-lists {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .diff-list {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      max-height: 165px;
+      overflow: auto;
+      background: #fff;
+      font-size: 0.76rem;
+    }
+
+    .diff-row {
+      border-bottom: 1px solid var(--line);
+      padding: 5px 7px;
+      word-break: break-word;
+    }
+
+    .diff-row:last-child { border-bottom: 0; }
+    .diff-row.new { border-left: 3px solid var(--new); }
+    .diff-row.removed { border-left: 3px solid var(--removed); }
+
+    .job-log {
+      min-height: 180px;
+      max-height: 250px;
+      overflow: auto;
+      background: #0e2430;
+      color: #d8eef8;
+      border-radius: 10px;
+      border: 1px solid #28475a;
+      padding: 10px;
+      font-size: 0.74rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      white-space: pre-wrap;
+    }
+
+    .muted { color: var(--muted); font-size: 0.8rem; }
+
+    @media (max-width: 1120px) {
+      .layout { grid-template-columns: 1fr; }
+      .viz-grid { grid-template-columns: 1fr; }
+      .diff-lists { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <h1>WRX Recon Navigator</h1>
+        <p>Full GUI mode for reconnaissance teams: workspace control, scan orchestration, findings triage, and visual diff intelligence.</p>
+      </div>
+      <div class="ver">v{{ app_version }}</div>
+    </section>
+
+    <section class="layout">
+      <aside class="sidebar-grid">
+        <article class="card panel controls">
+          <h2>Workspace Control</h2>
+          <label for="targetSelect">Target Workspace</label>
+          <select id="targetSelect"></select>
+
+          <label for="currentRunSelect">Current Run</label>
+          <select id="currentRunSelect"></select>
+
+          <label for="previousRunSelect">Compare Against</label>
+          <select id="previousRunSelect"></select>
+
+          <div class="btn-row">
+            <button id="refreshBtn" type="button" class="primary">Refresh Data</button>
+            <a id="reportLink" class="btn-link secondary" href="#" target="_blank" rel="noreferrer">Open Report</a>
+          </div>
+
+          <div class="status-line" id="statusLine">Initializing dashboard...</div>
+
+          <h2 style="margin-top:12px;">Recent Runs</h2>
+          <div id="runList" class="run-list"></div>
+        </article>
+
+        <article class="card panel controls">
+          <h2>Action Center</h2>
+          <div class="muted" style="margin:-4px 0 10px 0;">
+            First time here? Use <strong>Demo Juice Shop</strong> only.
+          </div>
+          <label for="actionTargetInput">Target</label>
+          <input id="actionTargetInput" type="text" placeholder="example.com or juice-shop">
+
+          <label for="actionPresetSelect">Preset</label>
+          <select id="actionPresetSelect"></select>
+
+          <label for="actionProfileSelect">Scan Profile</label>
+          <select id="actionProfileSelect"></select>
+
+          <div class="checkline"><input id="actForce" type="checkbox" checked> <label for="actForce" style="margin:0;text-transform:none;font-size:0.82rem;">Force</label></div>
+          <div class="checkline"><input id="actDryRun" type="checkbox"> <label for="actDryRun" style="margin:0;text-transform:none;font-size:0.82rem;">Dry run</label></div>
+          <div class="checkline"><input id="actLocalDemo" type="checkbox"> <label for="actLocalDemo" style="margin:0;text-transform:none;font-size:0.82rem;">Local demo mode</label></div>
+          <div class="checkline"><input id="actWithScan" type="checkbox"> <label for="actWithScan" style="margin:0;text-transform:none;font-size:0.82rem;">Include scan/deep checks</label></div>
+          <div class="checkline"><input id="actAutoInit" type="checkbox" checked> <label for="actAutoInit" style="margin:0;text-transform:none;font-size:0.82rem;">Auto-init workspace</label></div>
+          <div class="checkline"><input id="actTriage" type="checkbox"> <label for="actTriage" style="margin:0;text-transform:none;font-size:0.82rem;">Enable triage clustering</label></div>
+          <div class="checkline"><input id="actOllama" type="checkbox"> <label for="actOllama" style="margin:0;text-transform:none;font-size:0.82rem;">Use Ollama summary</label></div>
+
+          <label for="actOllamaModel">Ollama Model</label>
+          <input id="actOllamaModel" type="text" value="qwen2.5:7b" placeholder="qwen2.5:7b">
+          <label for="actOllamaUrl">Ollama URL</label>
+          <input id="actOllamaUrl" type="text" value="http://127.0.0.1:11434" placeholder="http://127.0.0.1:11434">
+
+          <div class="btn-row">
+            <button id="btnInitWorkspace" type="button" class="secondary">Init Workspace</button>
+            <button id="btnRunPreset" type="button" class="primary">Run Preset</button>
+          </div>
+          <div class="btn-row">
+            <button id="btnDoctor" type="button" class="secondary">Doctor</button>
+            <button id="btnReportNow" type="button" class="secondary">Report</button>
+            <button id="btnDiffNow" type="button" class="secondary">Diff</button>
+          </div>
+          <div class="btn-row">
+            <button id="btnDemo" type="button" class="warm">Demo Juice Shop</button>
+            <button id="btnFlow" type="button" class="warm">Flow (Demo→Deep)</button>
+          </div>
+
+          <h2 style="margin-top:12px;">Export Connectors</h2>
+          <label for="exportFormatSelect">Format</label>
+          <select id="exportFormatSelect">
+            <option value="markdown">Markdown</option>
+            <option value="sarif">SARIF</option>
+            <option value="github">GitHub Issues JSON</option>
+            <option value="jira">Jira Issues JSON</option>
+          </select>
+          <label for="exportRunIdInput">Run ID (optional)</label>
+          <input id="exportRunIdInput" type="text" placeholder="latest if empty">
+          <div class="btn-row">
+            <button id="btnExportNow" type="button" class="secondary">Export</button>
+          </div>
+        </article>
+
+        <article class="card panel controls">
+          <h2>Automation Jobs</h2>
+          <div class="checkline"><input id="autoPollJobs" type="checkbox" checked> <label for="autoPollJobs" style="margin:0;text-transform:none;font-size:0.82rem;">Auto refresh jobs</label></div>
+          <div id="jobList" class="job-list" style="margin-top:8px;"></div>
+          <div class="btn-row">
+            <button id="btnCancelJob" type="button" class="danger">Cancel Job</button>
+            <button id="btnRefreshJobs" type="button" class="secondary">Refresh Jobs</button>
+          </div>
+          <div id="jobMeta" class="muted">No job selected.</div>
+          <pre id="jobLog" class="job-log"></pre>
+        </article>
+      </aside>
+
+      <section class="main-grid">
+        <article class="card panel">
+          <h2>Run Telemetry</h2>
+          <div id="countCards" class="kpi-grid"></div>
+          <div class="meta-strip">
+            <div id="runMetaText">No run selected.</div>
+          </div>
+          <div id="stagePills" class="stage-pills"></div>
+        </article>
+
+        <article class="card panel">
+          <h2>Recon Visualizations</h2>
+          <div class="viz-grid">
+            <section class="viz-card">
+              <h3>Trend Graph (Run History)</h3>
+              <div class="chart-wrap">
+                <svg id="trendSvg" viewBox="0 0 720 220" role="img" aria-label="Run trend chart"></svg>
+              </div>
+              <div class="legend">
+                <span class="key"><span class="dot" style="background:#0b7b8a;"></span>URLs</span>
+                <span class="key"><span class="dot" style="background:#ca8a04;"></span>Nuclei</span>
+                <span class="key"><span class="dot" style="background:#b23a48;"></span>ZAP</span>
+              </div>
+            </section>
+
+            <section class="viz-card">
+              <h3>Findings and Surface Mix</h3>
+              <div style="display:grid;gap:9px;">
+                <div>
+                  <div class="muted">Nuclei severity</div>
+                  <div id="severityBars" class="stack-bars"></div>
+                </div>
+                <div>
+                  <div class="muted">ZAP risk</div>
+                  <div id="riskBars" class="stack-bars"></div>
+                </div>
+                <div>
+                  <div class="muted">URL source stage</div>
+                  <div id="sourceBars" class="stack-bars"></div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </article>
+
+        <article class="card panel">
+          <h2>Asset Correlation Graph</h2>
+          <div class="tab-row">
+            <input id="graphFilter" type="text" placeholder="Filter nodes (host/url/tech/template/alert)">
+            <input id="graphTypes" type="text" placeholder="Types: host,url,tech,nuclei,zap">
+            <button id="btnRefreshGraph" type="button" class="secondary">Refresh Graph</button>
+          </div>
+          <div class="viz-grid" style="grid-template-columns:1.5fr 1fr;">
+            <section class="viz-card">
+              <h3>Graph Canvas</h3>
+              <div class="chart-wrap">
+                <svg id="assetGraphSvg" viewBox="0 0 900 320" role="img" aria-label="Asset graph"></svg>
+              </div>
+            </section>
+            <section class="viz-card">
+              <h3>Node Drilldown</h3>
+              <div id="graphMeta" class="muted">No graph data loaded.</div>
+              <div id="graphDrilldown" style="margin-top:8px;"></div>
+            </section>
+          </div>
+        </article>
+
+        <article class="card panel">
+          <h2>Historical Drift and Preset Trends</h2>
+          <div class="viz-grid" style="grid-template-columns:1fr 1fr;">
+            <section class="viz-card">
+              <h3>Coverage Drift</h3>
+              <table>
+                <thead>
+                  <tr><th>From</th><th>To</th><th>Surface Δ</th><th>Findings Δ</th></tr>
+                </thead>
+                <tbody id="driftTableBody"></tbody>
+              </table>
+            </section>
+            <section class="viz-card">
+              <h3>Preset Rollups</h3>
+              <table>
+                <thead>
+                  <tr><th>Preset</th><th>Runs</th><th>Avg URLs</th><th>Avg Findings</th></tr>
+                </thead>
+                <tbody id="presetTrendBody"></tbody>
+              </table>
+            </section>
+          </div>
+        </article>
+
+        <article class="card panel">
+          <h2>Stage Health Matrix and Tech Profile</h2>
+          <div class="viz-grid" style="grid-template-columns:1.5fr 1fr;">
+            <section class="viz-card">
+              <h3>Recent Stage Matrix</h3>
+              <div style="overflow:auto;">
+                <table id="stageMatrixTable" class="stage-table"></table>
+              </div>
+            </section>
+
+            <section class="viz-card">
+              <h3>Detected Technologies</h3>
+              <div id="techCloud" class="tech-cloud"></div>
+            </section>
+          </div>
+        </article>
+
+        <article class="card panel">
+          <h2>Surface Explorer</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;" id="surfaceGrid">
+            <div>
+              <table>
+                <thead>
+                  <tr><th>Alive Host</th><th>Status</th><th>Title</th></tr>
+                </thead>
+                <tbody id="aliveTableBody"></tbody>
+              </table>
+            </div>
+            <div>
+              <table>
+                <thead>
+                  <tr><th>URL</th><th>Source Stage</th></tr>
+                </thead>
+                <tbody id="urlTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </article>
+
+        <article class="card panel">
+          <h2>Findings Lab</h2>
+          <div class="tab-row">
+            <button class="tab-btn active" id="tabNucleiBtn" type="button">Nuclei</button>
+            <button class="tab-btn" id="tabZapBtn" type="button">ZAP</button>
+            <input id="findingsFilter" type="text" placeholder="Filter by severity, template, url, alert...">
+          </div>
+
+          <div id="nucleiPane">
+            <table>
+              <thead>
+                <tr><th>Severity</th><th>Template</th><th>Matched At</th><th>Name</th></tr>
+              </thead>
+              <tbody id="nucleiTableBody"></tbody>
+            </table>
+          </div>
+
+          <div id="zapPane" class="hidden">
+            <table>
+              <thead>
+                <tr><th>Risk</th><th>Alert</th><th>URL</th><th>Confidence</th></tr>
+              </thead>
+              <tbody id="zapTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="card panel">
+          <h2>Triage Assistant</h2>
+          <div id="triageMeta" class="muted">Triage disabled for this run.</div>
+          <div class="viz-grid" style="grid-template-columns:1fr 1fr;">
+            <section class="viz-card">
+              <h3>Cluster Recommendations</h3>
+              <div id="triageRecommendations"></div>
+            </section>
+            <section class="viz-card">
+              <h3>Ollama Summary</h3>
+              <pre id="triageSummary" class="job-log" style="max-height:170px;"></pre>
+            </section>
+          </div>
+        </article>
+
+        <article class="card panel">
+          <h2>Diff Orbit</h2>
+          <input id="diffFilter" type="text" placeholder="Filter categories or changed values...">
+          <div id="diffCards" class="diff-grid"></div>
+          <div id="diffDetails"></div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      defaultTarget: {{ default_target|tojson }},
+      target: null,
+      targets: [],
+      presets: [],
+      scanProfiles: [],
+      runs: [],
+      summaryPayload: null,
+      diffPayload: null,
+      insightsPayload: null,
+      graphPayload: null,
+      selectedGraphNodeId: null,
+      activePane: "nuclei",
+      jobs: [],
+      selectedJobId: null,
+    };
+
+    const els = {
+      targetSelect: document.getElementById("targetSelect"),
+      currentRunSelect: document.getElementById("currentRunSelect"),
+      previousRunSelect: document.getElementById("previousRunSelect"),
+      refreshBtn: document.getElementById("refreshBtn"),
+      reportLink: document.getElementById("reportLink"),
+      statusLine: document.getElementById("statusLine"),
+      runList: document.getElementById("runList"),
+      countCards: document.getElementById("countCards"),
+      runMetaText: document.getElementById("runMetaText"),
+      stagePills: document.getElementById("stagePills"),
+      trendSvg: document.getElementById("trendSvg"),
+      severityBars: document.getElementById("severityBars"),
+      riskBars: document.getElementById("riskBars"),
+      sourceBars: document.getElementById("sourceBars"),
+      stageMatrixTable: document.getElementById("stageMatrixTable"),
+      techCloud: document.getElementById("techCloud"),
+      aliveTableBody: document.getElementById("aliveTableBody"),
+      urlTableBody: document.getElementById("urlTableBody"),
+      findingsFilter: document.getElementById("findingsFilter"),
+      nucleiTableBody: document.getElementById("nucleiTableBody"),
+      zapTableBody: document.getElementById("zapTableBody"),
+      tabNucleiBtn: document.getElementById("tabNucleiBtn"),
+      tabZapBtn: document.getElementById("tabZapBtn"),
+      nucleiPane: document.getElementById("nucleiPane"),
+      zapPane: document.getElementById("zapPane"),
+      diffFilter: document.getElementById("diffFilter"),
+      diffCards: document.getElementById("diffCards"),
+      diffDetails: document.getElementById("diffDetails"),
+      actionTargetInput: document.getElementById("actionTargetInput"),
+      actionPresetSelect: document.getElementById("actionPresetSelect"),
+      actionProfileSelect: document.getElementById("actionProfileSelect"),
+      actForce: document.getElementById("actForce"),
+      actDryRun: document.getElementById("actDryRun"),
+      actLocalDemo: document.getElementById("actLocalDemo"),
+      actWithScan: document.getElementById("actWithScan"),
+      actAutoInit: document.getElementById("actAutoInit"),
+      actTriage: document.getElementById("actTriage"),
+      actOllama: document.getElementById("actOllama"),
+      actOllamaModel: document.getElementById("actOllamaModel"),
+      actOllamaUrl: document.getElementById("actOllamaUrl"),
+      btnInitWorkspace: document.getElementById("btnInitWorkspace"),
+      btnRunPreset: document.getElementById("btnRunPreset"),
+      btnDoctor: document.getElementById("btnDoctor"),
+      btnReportNow: document.getElementById("btnReportNow"),
+      btnDiffNow: document.getElementById("btnDiffNow"),
+      btnDemo: document.getElementById("btnDemo"),
+      btnFlow: document.getElementById("btnFlow"),
+      exportFormatSelect: document.getElementById("exportFormatSelect"),
+      exportRunIdInput: document.getElementById("exportRunIdInput"),
+      btnExportNow: document.getElementById("btnExportNow"),
+      jobList: document.getElementById("jobList"),
+      btnCancelJob: document.getElementById("btnCancelJob"),
+      btnRefreshJobs: document.getElementById("btnRefreshJobs"),
+      autoPollJobs: document.getElementById("autoPollJobs"),
+      jobMeta: document.getElementById("jobMeta"),
+      jobLog: document.getElementById("jobLog"),
+      graphFilter: document.getElementById("graphFilter"),
+      graphTypes: document.getElementById("graphTypes"),
+      btnRefreshGraph: document.getElementById("btnRefreshGraph"),
+      assetGraphSvg: document.getElementById("assetGraphSvg"),
+      graphMeta: document.getElementById("graphMeta"),
+      graphDrilldown: document.getElementById("graphDrilldown"),
+      driftTableBody: document.getElementById("driftTableBody"),
+      presetTrendBody: document.getElementById("presetTrendBody"),
+      triageMeta: document.getElementById("triageMeta"),
+      triageRecommendations: document.getElementById("triageRecommendations"),
+      triageSummary: document.getElementById("triageSummary"),
+    };
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function setStatus(message) {
+      els.statusLine.textContent = message;
+    }
+
+    async function apiGet(path, params = {}) {
+      const url = new URL(path, window.location.origin);
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== null && value !== undefined && value !== "") {
+          url.searchParams.set(key, value);
+        }
+      });
+      const response = await fetch(url.toString());
+      if (!response.ok) {
+        let detail = "Request failed";
+        try {
+          const payload = await response.json();
+          detail = payload.detail || detail;
+        } catch (_) {
+          detail = `${response.status} ${response.statusText}`;
+        }
+        throw new Error(detail);
+      }
+      return response.json();
+    }
+
+    async function apiPost(path, payload = {}) {
+      const response = await fetch(path, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        let detail = "Request failed";
+        try {
+          const data = await response.json();
+          detail = data.detail || detail;
+        } catch (_) {
+          detail = `${response.status} ${response.statusText}`;
+        }
+        throw new Error(detail);
+      }
+      return response.json();
+    }
+
+    function statusClass(name) {
+      const normalized = String(name || "missing").toLowerCase();
+      if (["completed", "running", "queued", "error", "cancelled", "disabled", "skipped", "resumed", "missing"].includes(normalized)) {
+        return normalized;
+      }
+      return "missing";
+    }
+
+    function renderTargetOptions() {
+      els.targetSelect.innerHTML = state.targets.map((item) => {
+        const counts = item.latest_counts || {};
+        const suffix = item.latest_run ? ` • runs:${item.run_count} • urls:${counts.urls || 0}` : " • no runs";
+        return `<option value="${escapeHtml(item.id)}">${escapeHtml(item.display_name)}${escapeHtml(suffix)}</option>`;
+      }).join("");
+      if (state.target) {
+        els.targetSelect.value = state.target;
+      }
+    }
+
+    function renderPresetOptions() {
+      const html = state.presets.map((item) =>
+        `<option value="${escapeHtml(item.name)}">${escapeHtml(item.name)}${item.description ? ` • ${escapeHtml(item.description)}` : ""}</option>`
+      ).join("");
+      els.actionPresetSelect.innerHTML = html;
+      if (!els.actionPresetSelect.value && state.presets.length) {
+        els.actionPresetSelect.value = state.presets[0].name;
+      }
+    }
+
+    function renderScanProfileOptions() {
+      const html = state.scanProfiles.map((item) =>
+        `<option value="${escapeHtml(item.name)}">${escapeHtml(item.name)}${item.description ? ` • ${escapeHtml(item.description)}` : ""}</option>`
+      ).join("");
+      els.actionProfileSelect.innerHTML = html;
+      if (!els.actionProfileSelect.value && state.scanProfiles.length) {
+        els.actionProfileSelect.value = state.scanProfiles[0].name;
+      }
+    }
+
+    function renderRunOptions() {
+      const options = state.runs.map((run) => {
+        const c = run.counts || {};
+        return `<option value="${escapeHtml(run.run_id)}">${escapeHtml(run.run_id)} • ${escapeHtml(run.preset)} • urls:${c.urls || 0} • n:${c.nuclei_findings || 0} • z:${c.zap_findings || 0}</option>`;
+      }).join("");
+      els.currentRunSelect.innerHTML = options;
+      els.previousRunSelect.innerHTML = `<option value="">Auto previous</option>${options}`;
+
+      const current = state.summaryPayload?.run_id || state.runs[0]?.run_id || "";
+      if (current) {
+        els.currentRunSelect.value = current;
+      }
+      if (state.runs.length > 1) {
+        const defaultPrev = state.runs[1].run_id;
+        if (!els.previousRunSelect.value) {
+          els.previousRunSelect.value = defaultPrev;
+        }
+      }
+
+      els.runList.innerHTML = state.runs.map((run) => {
+        const c = run.counts || {};
+        const active = run.run_id === els.currentRunSelect.value ? "active" : "";
+        return `
+          <div class="run-item ${active}" data-run-id="${escapeHtml(run.run_id)}">
+            <strong>${escapeHtml(run.run_id)}</strong>
+            <span class="badge ${statusClass(run.status)}">${escapeHtml(run.status)}</span>
+            <div class="muted">${escapeHtml(run.preset)} • h:${c.alive_hosts || 0} • u:${c.urls || 0} • n:${c.nuclei_findings || 0} • z:${c.zap_findings || 0}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderKpis() {
+      const counts = state.summaryPayload?.summary?.counts || {};
+      const kpis = [
+        ["Subdomains", counts.subdomains || 0],
+        ["Alive Hosts", counts.alive_hosts || 0],
+        ["URLs", counts.urls || 0],
+        ["Nuclei Findings", counts.nuclei_findings || 0],
+        ["ZAP Findings", counts.zap_findings || 0],
+      ];
+      els.countCards.innerHTML = kpis.map(([label, value]) => `
+        <div class="kpi">
+          <span>${escapeHtml(label)}</span>
+          <strong>${escapeHtml(value)}</strong>
+        </div>
+      `).join("");
+    }
+
+    function renderMetaAndStages() {
+      const summary = state.summaryPayload?.summary || {};
+      const metadata = summary.metadata || {};
+      els.runMetaText.textContent = metadata.run_id
+        ? `Target ${metadata.target} • Run ${metadata.run_id} • Preset ${metadata.preset} • ${metadata.timestamp || ""}`
+        : "No run selected.";
+
+      const rows = state.summaryPayload?.stage_statuses || [];
+      els.stagePills.innerHTML = rows.map((row) => {
+        const status = statusClass(row.status);
+        const reason = row.reason ? ` (${row.reason})` : "";
+        return `<span class="stage-pill ${status}">${escapeHtml(row.stage)}: ${escapeHtml(status)}${escapeHtml(reason)}</span>`;
+      }).join("");
+    }
+
+    function renderSurface() {
+      const summary = state.summaryPayload?.summary || {};
+      const hosts = summary.alive_hosts || [];
+      const urls = summary.urls || [];
+
+      els.aliveTableBody.innerHTML = hosts.length ? hosts.map((host) => `
+        <tr>
+          <td>${escapeHtml(host.url)}</td>
+          <td>${escapeHtml(host.status_code)}</td>
+          <td>${escapeHtml(host.title || "-")}</td>
+        </tr>
+      `).join("") : `<tr><td colspan="3">No alive hosts captured.</td></tr>`;
+
+      els.urlTableBody.innerHTML = urls.length ? urls.map((item) => `
+        <tr>
+          <td>${escapeHtml(item.url)}</td>
+          <td>${escapeHtml(item.source_stage || "-")}</td>
+        </tr>
+      `).join("") : `<tr><td colspan="2">No URLs discovered.</td></tr>`;
+    }
+
+    function filterItems(items, keys, term) {
+      if (!term) return items;
+      const needle = term.toLowerCase();
+      return items.filter((item) =>
+        keys.some((key) => String(item[key] || "").toLowerCase().includes(needle))
+      );
+    }
+
+    function renderFindings() {
+      const summary = state.summaryPayload?.summary || {};
+      const term = els.findingsFilter.value.trim();
+      const nuclei = filterItems(summary.nuclei_findings || [], ["template_id", "severity", "name", "matched_at"], term);
+      const zap = filterItems(summary.zap_findings || [], ["risk", "alert", "url", "confidence"], term);
+
+      els.nucleiTableBody.innerHTML = nuclei.length ? nuclei.map((f) => `
+        <tr>
+          <td><span class="sev ${escapeHtml(String(f.severity || "unknown").toLowerCase())}">${escapeHtml(f.severity || "unknown")}</span></td>
+          <td>${escapeHtml(f.template_id)}</td>
+          <td>${escapeHtml(f.matched_at)}</td>
+          <td>${escapeHtml(f.name || "-")}</td>
+        </tr>
+      `).join("") : `<tr><td colspan="4">No nuclei findings.</td></tr>`;
+
+      els.zapTableBody.innerHTML = zap.length ? zap.map((f) => `
+        <tr>
+          <td><span class="sev ${escapeHtml(String(f.risk || "unknown").toLowerCase())}">${escapeHtml(f.risk || "unknown")}</span></td>
+          <td>${escapeHtml(f.alert || "-")}</td>
+          <td>${escapeHtml(f.url || "-")}</td>
+          <td>${escapeHtml(f.confidence || "-")}</td>
+        </tr>
+      `).join("") : `<tr><td colspan="4">No ZAP findings.</td></tr>`;
+    }
+
+    function renderTriage() {
+      const triage = state.summaryPayload?.summary?.triage || {};
+      if (!triage || !triage.enabled) {
+        els.triageMeta.textContent = "Triage disabled for this run.";
+        els.triageRecommendations.innerHTML = `<div class="muted">Enable with --triage or --ollama.</div>`;
+        els.triageSummary.textContent = "";
+        return;
+      }
+
+      const clusters = Number(triage.cluster_count || 0);
+      const llmUsed = triage.llm_used ? "yes" : "no";
+      const llmError = triage.llm_error ? ` • LLM error: ${triage.llm_error}` : "";
+      els.triageMeta.textContent = `Clusters: ${clusters} • Ollama used: ${llmUsed}${llmError}`;
+
+      const recommendations = triage.recommendations || [];
+      els.triageRecommendations.innerHTML = recommendations.length
+        ? `<ul>${recommendations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+        : `<div class="muted">No recommendations generated.</div>`;
+      els.triageSummary.textContent = triage.llm_summary || "";
+    }
+
+    function renderDiff() {
+      const payload = state.diffPayload || {};
+      const cards = payload.cards || [];
+      const changes = payload.changes || {};
+      const term = els.diffFilter.value.trim().toLowerCase();
+
+      const filtered = cards.filter((card) => {
+        if (!term) return true;
+        const fieldHit = card.category.toLowerCase().includes(term) || card.label.toLowerCase().includes(term);
+        const val = changes[card.category] || { new: [], removed: [] };
+        const valuesHit = [...val.new, ...val.removed].some((entry) => String(entry).toLowerCase().includes(term));
+        return fieldHit || valuesHit;
+      });
+
+      els.diffCards.innerHTML = filtered.length ? filtered.map((card) => {
+        const total = Math.max(card.total_changes, 1);
+        const newW = ((card.new_count / total) * 100).toFixed(2);
+        const remW = ((card.removed_count / total) * 100).toFixed(2);
+        return `
+          <article class="diff-card">
+            <h4>${escapeHtml(card.label)}</h4>
+            <div class="diff-kpi">
+              <span class="chip new">+${escapeHtml(card.new_count)}</span>
+              <span class="chip removed">-${escapeHtml(card.removed_count)}</span>
+            </div>
+            <div class="spark"><div class="new" style="width:${newW}%"></div><div class="removed" style="width:${remW}%"></div></div>
+          </article>
+        `;
+      }).join("") : `<div class="muted">No diff changes for this selection.</div>`;
+
+      els.diffDetails.innerHTML = filtered.map((card) => {
+        const bucket = changes[card.category] || { new: [], removed: [] };
+        const newRows = (bucket.new || []).map((item) => `<div class="diff-row new">${escapeHtml(item)}</div>`).join("");
+        const remRows = (bucket.removed || []).map((item) => `<div class="diff-row removed">${escapeHtml(item)}</div>`).join("");
+        return `
+          <details ${card.total_changes > 0 ? "open" : ""}>
+            <summary>${escapeHtml(card.label)} changes</summary>
+            <div class="diff-lists">
+              <div>
+                <div class="muted">New (${escapeHtml(card.new_count)})</div>
+                <div class="diff-list">${newRows || `<div class="diff-row">None</div>`}</div>
+              </div>
+              <div>
+                <div class="muted">Removed (${escapeHtml(card.removed_count)})</div>
+                <div class="diff-list">${remRows || `<div class="diff-row">None</div>`}</div>
+              </div>
+            </div>
+          </details>
+        `;
+      }).join("");
+    }
+
+    function renderBars(container, items, palette) {
+      const entries = Object.entries(items || {});
+      if (!entries.length) {
+        container.innerHTML = `<div class="muted">No data.</div>`;
+        return;
+      }
+      const max = Math.max(...entries.map(([, value]) => Number(value || 0)), 1);
+      container.innerHTML = entries.sort((a, b) => Number(b[1]) - Number(a[1])).map(([name, raw], idx) => {
+        const value = Number(raw || 0);
+        const width = ((value / max) * 100).toFixed(2);
+        const color = palette[idx % palette.length];
+        return `
+          <div class="stack-row">
+            <span>${escapeHtml(name)}</span>
+            <div class="bar"><span style="width:${width}%;background:${color};"></span></div>
+            <span>${escapeHtml(value)}</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function countBy(items, keyFn) {
+      const out = {};
+      for (const item of items || []) {
+        const key = keyFn(item) || "unknown";
+        out[key] = (out[key] || 0) + 1;
+      }
+      return out;
+    }
+
+    function renderTechCloud() {
+      const summary = state.summaryPayload?.summary || {};
+      const techCounts = {};
+      for (const host of summary.alive_hosts || []) {
+        for (const tech of host.tech || []) {
+          const key = String(tech || "").trim();
+          if (!key) continue;
+          techCounts[key] = (techCounts[key] || 0) + 1;
+        }
+      }
+      const entries = Object.entries(techCounts).sort((a, b) => b[1] - a[1]);
+      const contextWords = summary.fuzz_context_words || [];
+      const techMarkup = entries.map(([name, value]) => `<span class="tech-chip">${escapeHtml(name)} (${escapeHtml(value)})</span>`).join("");
+      const wordMarkup = contextWords.slice(0, 22).map((word) => `<span class="tech-chip">wl:${escapeHtml(word)}</span>`).join("");
+      if (!techMarkup && !wordMarkup) {
+        els.techCloud.innerHTML = `<span class="muted">No tech fingerprints or context words in this run.</span>`;
+        return;
+      }
+      els.techCloud.innerHTML = `${techMarkup}${wordMarkup}`;
+    }
+
+    function renderDistributionPanels() {
+      const summary = state.summaryPayload?.summary || {};
+      const severity = countBy(summary.nuclei_findings || [], (f) => String(f.severity || "unknown").toLowerCase());
+      const risk = countBy(summary.zap_findings || [], (f) => String(f.risk || "unknown").toLowerCase());
+      const source = countBy(summary.urls || [], (u) => String(u.source_stage || "unknown").toLowerCase());
+
+      renderBars(els.severityBars, severity, ["#b42318", "#ca8a04", "#0f766e", "#0e7490", "#64748b"]);
+      renderBars(els.riskBars, risk, ["#b42318", "#ca8a04", "#0f766e", "#0e7490", "#64748b"]);
+      renderBars(els.sourceBars, source, ["#027c90", "#ff7f50", "#0f766e", "#a855f7", "#64748b"]);
+    }
+
+    function renderTrendChart() {
+      const svg = els.trendSvg;
+      const trend = state.insightsPayload?.trend || [];
+      if (!trend.length) {
+        svg.innerHTML = `<text x="20" y="34" fill="#5f7280" font-size="14">No trend data available.</text>`;
+        return;
+      }
+
+      const width = 720;
+      const height = 220;
+      const pad = 28;
+      const keys = ["urls", "nuclei_findings", "zap_findings"];
+      const colors = { urls: "#0b7b8a", nuclei_findings: "#ca8a04", zap_findings: "#b23a48" };
+
+      const maxValue = Math.max(
+        1,
+        ...trend.flatMap((row) => keys.map((key) => Number((row.counts || {})[key] || 0)))
+      );
+      const xStep = trend.length > 1 ? (width - pad * 2) / (trend.length - 1) : 0;
+      const toY = (value) => height - pad - ((value / maxValue) * (height - pad * 2));
+
+      const axisLines = `
+        <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${height - pad}" stroke="#c7d8df" stroke-width="1"/>
+        <line x1="${pad}" y1="${height - pad}" x2="${width - pad}" y2="${height - pad}" stroke="#c7d8df" stroke-width="1"/>
+        <text x="${pad + 4}" y="${pad + 12}" fill="#5d7480" font-size="11">${escapeHtml(maxValue)}</text>
+        <text x="${pad + 4}" y="${height - pad - 4}" fill="#5d7480" font-size="11">0</text>
+      `;
+
+      const series = keys.map((key) => {
+        const points = trend.map((row, index) => {
+          const x = pad + index * xStep;
+          const y = toY(Number((row.counts || {})[key] || 0));
+          return `${x},${y}`;
+        }).join(" ");
+
+        const circles = trend.map((row, index) => {
+          const x = pad + index * xStep;
+          const y = toY(Number((row.counts || {})[key] || 0));
+          const value = Number((row.counts || {})[key] || 0);
+          return `<circle cx="${x}" cy="${y}" r="3.2" fill="${colors[key]}"><title>${escapeHtml(key)}: ${escapeHtml(value)} (${escapeHtml(row.run_id)})</title></circle>`;
+        }).join("");
+
+        return `<polyline fill="none" stroke="${colors[key]}" stroke-width="2.4" points="${points}"/>${circles}`;
+      }).join("");
+
+      const runTicks = trend.map((row, index) => {
+        const x = pad + index * xStep;
+        const label = row.run_id.slice(-6);
+        return `<text x="${x - 12}" y="${height - 8}" fill="#6a7f8a" font-size="10">${escapeHtml(label)}</text>`;
+      }).join("");
+
+      svg.innerHTML = `${axisLines}${series}${runTicks}`;
+    }
+
+    function renderStageMatrix() {
+      const payload = state.insightsPayload || {};
+      const matrix = payload.stage_matrix || [];
+      const stages = payload.stage_order || [];
+
+      if (!matrix.length) {
+        els.stageMatrixTable.innerHTML = `<tr><td class="muted">No stage matrix data.</td></tr>`;
+        return;
+      }
+
+      const header = `
+        <thead>
+          <tr>
+            <th>Run</th>
+            ${stages.map((stage) => `<th>${escapeHtml(stage)}</th>`).join("")}
+          </tr>
+        </thead>
+      `;
+
+      const body = matrix.slice(0, 10).map((row) => {
+        const cells = stages.map((stage) => {
+          const status = statusClass((row.stages || {})[stage]);
+          return `<td><span class="status-cell ${status}">${escapeHtml(status)}</span></td>`;
+        }).join("");
+        return `<tr><td>${escapeHtml(row.run_id)}<br><span class="muted">${escapeHtml(row.preset || "")}</span></td>${cells}</tr>`;
+      }).join("");
+
+      els.stageMatrixTable.innerHTML = `${header}<tbody>${body}</tbody>`;
+    }
+
+    function renderInsights() {
+      renderTrendChart();
+      renderStageMatrix();
+      renderDistributionPanels();
+      renderTechCloud();
+      renderHistoricalDrift();
+    }
+
+    function renderHistoricalDrift() {
+      const insights = state.insightsPayload || {};
+      const driftRows = insights.coverage_drift || [];
+      els.driftTableBody.innerHTML = driftRows.length ? driftRows.slice(-8).reverse().map((row) => `
+        <tr>
+          <td>${escapeHtml(row.from_run)}</td>
+          <td>${escapeHtml(row.to_run)}</td>
+          <td>${escapeHtml(row.delta_surface)}</td>
+          <td>${escapeHtml(row.delta_findings)}</td>
+        </tr>
+      `).join("") : `<tr><td colspan="4">No drift data available.</td></tr>`;
+
+      const rollups = (insights.preset_trends || {}).rollups || {};
+      const entries = Object.entries(rollups);
+      els.presetTrendBody.innerHTML = entries.length ? entries.map(([name, value]) => {
+        const averages = value.averages || {};
+        const avgFindings = Number(averages.nuclei_findings || 0) + Number(averages.zap_findings || 0);
+        return `
+          <tr>
+            <td>${escapeHtml(name)}</td>
+            <td>${escapeHtml(value.runs || 0)}</td>
+            <td>${escapeHtml(averages.urls || 0)}</td>
+            <td>${escapeHtml(avgFindings.toFixed ? avgFindings.toFixed(2) : avgFindings)}</td>
+          </tr>
+        `;
+      }).join("") : `<tr><td colspan="4">No preset trend data.</td></tr>`;
+    }
+
+    function renderGraph() {
+      const payload = state.graphPayload || {};
+      const svg = els.assetGraphSvg;
+      const nodes = payload.nodes || [];
+      const edges = payload.edges || [];
+
+      if (!nodes.length) {
+        svg.innerHTML = `<text x="20" y="34" fill="#5f7280" font-size="14">No graph nodes for current filters.</text>`;
+        els.graphMeta.textContent = "No graph data loaded.";
+        els.graphDrilldown.innerHTML = "";
+        return;
+      }
+
+      const width = 900;
+      const height = 320;
+      const typeOrder = ["host", "url", "tech", "nuclei", "zap"];
+      const columns = {};
+      typeOrder.forEach((type, idx) => { columns[type] = 60 + idx * 190; });
+
+      const grouped = {};
+      for (const node of nodes) {
+        const t = String(node.type || "unknown");
+        if (!grouped[t]) grouped[t] = [];
+        grouped[t].push(node);
+      }
+
+      const layout = {};
+      for (const [type, list] of Object.entries(grouped)) {
+        const x = columns[type] ?? (width - 80);
+        const step = Math.max(20, Math.floor((height - 40) / Math.max(1, list.length)));
+        list.forEach((node, idx) => {
+          layout[node.id] = {
+            x,
+            y: 25 + idx * step,
+          };
+        });
+      }
+
+      const edgeEls = edges.map((edge) => {
+        const from = layout[edge.source];
+        const to = layout[edge.target];
+        if (!from || !to) return "";
+        return `<line x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}" stroke="#bfd5dd" stroke-width="1.2" />`;
+      }).join("");
+
+      const nodeEls = nodes.map((node) => {
+        const p = layout[node.id];
+        if (!p) return "";
+        const selected = node.id === state.selectedGraphNodeId;
+        const fillMap = { host: "#0e7490", url: "#027c90", tech: "#0f766e", nuclei: "#ca8a04", zap: "#b23a48" };
+        const fill = fillMap[node.type] || "#64748b";
+        const radius = Math.min(12, 5 + Number(node.weight || 1));
+        return `
+          <g data-node-id="${escapeHtml(node.id)}">
+            <circle cx="${p.x}" cy="${p.y}" r="${radius}" fill="${fill}" ${selected ? `stroke="#111" stroke-width="2"` : ""}></circle>
+            <text x="${p.x + radius + 4}" y="${p.y + 3}" font-size="10" fill="#37515b">${escapeHtml(String(node.label || "").slice(0, 44))}</text>
+            <title>${escapeHtml(node.type)}: ${escapeHtml(node.label)}</title>
+          </g>
+        `;
+      }).join("");
+
+      svg.innerHTML = `${edgeEls}${nodeEls}`;
+      const meta = payload.meta || {};
+      els.graphMeta.textContent = `Nodes: ${meta.total_nodes || 0} • Edges: ${meta.total_edges || 0} • Run: ${meta.run_id || "-"}`;
+      renderGraphDrilldown();
+    }
+
+    function renderGraphDrilldown() {
+      const payload = state.graphPayload || {};
+      const nodes = payload.nodes || [];
+      const edges = payload.edges || [];
+      if (!state.selectedGraphNodeId) {
+        els.graphDrilldown.innerHTML = `<div class="muted">Click a graph node to inspect relationships.</div>`;
+        return;
+      }
+      const node = nodes.find((item) => item.id === state.selectedGraphNodeId);
+      if (!node) {
+        els.graphDrilldown.innerHTML = `<div class="muted">Selected node is not in current filtered view.</div>`;
+        return;
+      }
+      const neighbors = [];
+      for (const edge of edges) {
+        if (edge.source === node.id) neighbors.push(`${edge.relation} → ${edge.target}`);
+        if (edge.target === node.id) neighbors.push(`${edge.relation} ← ${edge.source}`);
+      }
+      els.graphDrilldown.innerHTML = `
+        <div><strong>${escapeHtml(node.label)}</strong></div>
+        <div class="muted">Type: ${escapeHtml(node.type)} • Weight: ${escapeHtml(node.weight || 1)}</div>
+        <div class="muted">Detail: ${escapeHtml(node.detail || "-")}</div>
+        <details open style="margin-top:8px;">
+          <summary>Relationships (${escapeHtml(neighbors.length)})</summary>
+          <div class="diff-list" style="margin-top:6px;">
+            ${neighbors.map((item) => `<div class="diff-row">${escapeHtml(item)}</div>`).join("") || `<div class="diff-row">None</div>`}
+          </div>
+        </details>
+      `;
+    }
+
+    function renderJobs() {
+      const jobs = state.jobs || [];
+      els.jobList.innerHTML = jobs.length ? jobs.map((job) => {
+        const active = state.selectedJobId === job.id ? "active" : "";
+        return `
+          <div class="job-item ${active}" data-job-id="${escapeHtml(job.id)}">
+            <strong>${escapeHtml(job.label || job.action)}</strong>
+            <span class="badge ${statusClass(job.status)}">${escapeHtml(job.status)}</span>
+            <div class="muted">${escapeHtml(job.target || "-")} • ${escapeHtml(job.created_at || "")}</div>
+          </div>
+        `;
+      }).join("") : `<div class="job-item">No jobs yet.</div>`;
+    }
+
+    function terminalStatus(status) {
+      return ["completed", "error", "cancelled"].includes(String(status || "").toLowerCase());
+    }
+
+    async function refreshJobDetail() {
+      if (!state.selectedJobId) {
+        els.jobMeta.textContent = "No job selected.";
+        els.jobLog.textContent = "";
+        return;
+      }
+      try {
+        const payload = await apiGet(`/api/actions/${encodeURIComponent(state.selectedJobId)}`, { tail: 16000 });
+        const job = payload.job;
+        els.jobMeta.textContent = `${job.label} • ${job.status} • rc=${job.returncode ?? "-"} • started=${job.started_at || "-"} • finished=${job.finished_at || "-"}`;
+        els.jobLog.textContent = job.log_tail || "";
+
+        if (terminalStatus(job.status)) {
+          await refreshTargetsAndRuns(false);
+          await refreshDataPanels();
+        }
+      } catch (error) {
+        els.jobMeta.textContent = `Job detail error: ${error.message}`;
+      }
+    }
+
+    async function refreshJobs(keepSelection = true) {
+      try {
+        const payload = await apiGet("/api/actions", { limit: 40 });
+        state.jobs = payload.jobs || [];
+        if (!keepSelection || !state.selectedJobId) {
+          state.selectedJobId = state.jobs[0]?.id || null;
+        } else if (state.selectedJobId && !state.jobs.some((job) => job.id === state.selectedJobId)) {
+          state.selectedJobId = state.jobs[0]?.id || null;
+        }
+        renderJobs();
+        await refreshJobDetail();
+      } catch (error) {
+        setStatus(`Failed to refresh jobs: ${error.message}`);
+      }
+    }
+
+    async function startAction(action, overrides = {}) {
+      try {
+        const targetInput = els.actionTargetInput.value.trim();
+        const payload = { action, target: targetInput, ...overrides };
+        const result = await apiPost("/api/actions/start", payload);
+        const job = result.job;
+        state.selectedJobId = job.id;
+        setStatus(`Started ${job.label} (${job.id}).`);
+        await refreshJobs(false);
+      } catch (error) {
+        setStatus(`Action failed: ${error.message}`);
+      }
+    }
+
+    async function refreshPresets() {
+      try {
+        const payload = await apiGet("/api/presets", { target: state.target || "" });
+        state.presets = payload.presets || [];
+        renderPresetOptions();
+      } catch (error) {
+        setStatus(`Preset load failed: ${error.message}`);
+      }
+    }
+
+    async function refreshScanProfiles() {
+      try {
+        const payload = await apiGet("/api/scan-profiles", { target: state.target || "" });
+        state.scanProfiles = payload.profiles || [];
+        renderScanProfileOptions();
+      } catch (error) {
+        setStatus(`Scan profile load failed: ${error.message}`);
+      }
+    }
+
+    async function refreshTargetsAndRuns(loadSummary = true) {
+      const targetsPayload = await apiGet("/api/targets");
+      state.targets = targetsPayload.targets || [];
+      if (!state.targets.length) {
+        state.target = null;
+        renderTargetOptions();
+        els.runList.innerHTML = "";
+        setStatus("No workspaces found. Use Init Workspace from Action Center.");
+        return;
+      }
+
+      if (!state.target || !state.targets.some((item) => item.id === state.target)) {
+        state.target = state.defaultTarget || targetsPayload.default_target || state.targets[0].id;
+      }
+
+      renderTargetOptions();
+      els.actionTargetInput.value = state.target || "";
+
+      const runsPayload = await apiGet("/api/runs", { target: state.target });
+      state.runs = runsPayload.runs || [];
+      renderRunOptions();
+
+      if (loadSummary && state.runs.length) {
+        await refreshDataPanels();
+      } else if (!state.runs.length) {
+        state.summaryPayload = null;
+        state.diffPayload = null;
+        state.insightsPayload = null;
+        state.graphPayload = null;
+        renderKpis();
+        renderMetaAndStages();
+        renderSurface();
+        renderFindings();
+        renderTriage();
+        renderDiff();
+        renderInsights();
+        renderGraph();
+      }
+    }
+
+    async function refreshGraph() {
+      if (!state.target || !state.runs.length) {
+        state.graphPayload = null;
+        renderGraph();
+        return;
+      }
+      const runId = els.currentRunSelect.value || state.runs[0].run_id;
+      state.graphPayload = await apiGet("/api/graph", {
+        target: state.target,
+        run_id: runId,
+        q: els.graphFilter.value.trim(),
+        types: els.graphTypes.value.trim(),
+      });
+      if (state.selectedGraphNodeId && !(state.graphPayload.nodes || []).some((item) => item.id === state.selectedGraphNodeId)) {
+        state.selectedGraphNodeId = null;
+      }
+      renderGraph();
+    }
+
+    async function refreshDataPanels() {
+      if (!state.target || !state.runs.length) {
+        return;
+      }
+      const runId = els.currentRunSelect.value || state.runs[0].run_id;
+      const previousRun = els.previousRunSelect.value || "";
+
+      const [summaryPayload, diffPayload, insightsPayload] = await Promise.all([
+        apiGet("/api/summary", { target: state.target, run_id: runId }),
+        apiGet("/api/diff", { target: state.target, current_run: runId, previous_run: previousRun }),
+        apiGet("/api/insights", { target: state.target, limit: 15 }),
+      ]);
+
+      state.summaryPayload = summaryPayload;
+      state.diffPayload = diffPayload;
+      state.insightsPayload = insightsPayload;
+
+      els.reportLink.href = summaryPayload.paths?.report_url || "#";
+
+      renderKpis();
+      renderMetaAndStages();
+      renderSurface();
+      renderFindings();
+      renderTriage();
+      renderDiff();
+      renderInsights();
+      await refreshGraph();
+    }
+
+    async function bootstrap() {
+      try {
+        setStatus("Loading workspace and run data...");
+        await refreshTargetsAndRuns(true);
+        await refreshPresets();
+        await refreshScanProfiles();
+        await refreshJobs(false);
+        setStatus("Dashboard ready.");
+      } catch (error) {
+        setStatus(`Bootstrap failed: ${error.message}`);
+      }
+    }
+
+    function activatePane(name) {
+      state.activePane = name;
+      const nuclei = name === "nuclei";
+      els.nucleiPane.classList.toggle("hidden", !nuclei);
+      els.zapPane.classList.toggle("hidden", nuclei);
+      els.tabNucleiBtn.classList.toggle("active", nuclei);
+      els.tabZapBtn.classList.toggle("active", !nuclei);
+    }
+
+    els.refreshBtn.addEventListener("click", async () => {
+      try {
+        await refreshDataPanels();
+        setStatus(`Refreshed run ${els.currentRunSelect.value || "-"}.`);
+      } catch (error) {
+        setStatus(`Refresh failed: ${error.message}`);
+      }
+    });
+
+    els.targetSelect.addEventListener("change", async () => {
+      state.target = els.targetSelect.value;
+      els.actionTargetInput.value = state.target;
+      try {
+        await refreshTargetsAndRuns(true);
+        await refreshPresets();
+        await refreshScanProfiles();
+        setStatus(`Loaded target ${state.target}.`);
+      } catch (error) {
+        setStatus(`Target change failed: ${error.message}`);
+      }
+    });
+
+    els.currentRunSelect.addEventListener("change", async () => {
+      try {
+        await refreshDataPanels();
+        els.runList.querySelectorAll(".run-item").forEach((item) => item.classList.toggle("active", item.dataset.runId === els.currentRunSelect.value));
+      } catch (error) {
+        setStatus(`Run load failed: ${error.message}`);
+      }
+    });
+
+    els.previousRunSelect.addEventListener("change", async () => {
+      try {
+        await refreshDataPanels();
+      } catch (error) {
+        setStatus(`Diff refresh failed: ${error.message}`);
+      }
+    });
+
+    els.runList.addEventListener("click", async (event) => {
+      const row = event.target.closest(".run-item");
+      if (!row) return;
+      els.currentRunSelect.value = row.dataset.runId;
+      try {
+        await refreshDataPanels();
+        els.runList.querySelectorAll(".run-item").forEach((item) => item.classList.remove("active"));
+        row.classList.add("active");
+      } catch (error) {
+        setStatus(`Run selection failed: ${error.message}`);
+      }
+    });
+
+    els.findingsFilter.addEventListener("input", () => renderFindings());
+    els.diffFilter.addEventListener("input", () => renderDiff());
+    els.tabNucleiBtn.addEventListener("click", () => activatePane("nuclei"));
+    els.tabZapBtn.addEventListener("click", () => activatePane("zap"));
+
+    els.btnInitWorkspace.addEventListener("click", async () => {
+      await startAction("init", { target: els.actionTargetInput.value.trim() });
+    });
+
+    els.btnRunPreset.addEventListener("click", async () => {
+      await startAction("run", {
+        target: els.actionTargetInput.value.trim(),
+        preset: els.actionPresetSelect.value || "quick",
+        scan_profile: els.actionProfileSelect.value || "",
+        force: els.actForce.checked,
+        dry_run: els.actDryRun.checked,
+        local_demo: els.actLocalDemo.checked,
+        with_scan: els.actWithScan.checked,
+        auto_init: els.actAutoInit.checked,
+        triage: els.actTriage.checked || els.actOllama.checked,
+        ollama: els.actOllama.checked,
+        ollama_model: els.actOllamaModel.value.trim(),
+        ollama_url: els.actOllamaUrl.value.trim(),
+      });
+    });
+
+    els.btnDoctor.addEventListener("click", async () => {
+      await startAction("doctor", { strict: false });
+    });
+
+    els.btnReportNow.addEventListener("click", async () => {
+      await startAction("report", { target: els.actionTargetInput.value.trim() || state.target });
+    });
+
+    els.btnDiffNow.addEventListener("click", async () => {
+      await startAction("diff", { target: els.actionTargetInput.value.trim() || state.target, last: 1 });
+    });
+
+    els.btnDemo.addEventListener("click", async () => {
+      await startAction("demo", {
+        target: "juice-shop",
+        dry_run: els.actDryRun.checked,
+        no_open: true,
+        keep_running: true,
+      });
+    });
+
+    els.btnFlow.addEventListener("click", async () => {
+      await startAction("flow", {
+        target: els.actionTargetInput.value.trim() || "juice-shop",
+        dry_run: els.actDryRun.checked,
+        with_scan: els.actWithScan.checked,
+        no_open: true,
+      });
+    });
+
+    els.btnExportNow.addEventListener("click", async () => {
+      await startAction("export", {
+        target: els.actionTargetInput.value.trim() || state.target,
+        format: els.exportFormatSelect.value || "markdown",
+        run_id: els.exportRunIdInput.value.trim(),
+      });
+    });
+
+    els.btnRefreshJobs.addEventListener("click", async () => {
+      await refreshJobs(true);
+      setStatus("Jobs refreshed.");
+    });
+
+    els.jobList.addEventListener("click", async (event) => {
+      const row = event.target.closest(".job-item");
+      if (!row || !row.dataset.jobId) return;
+      state.selectedJobId = row.dataset.jobId;
+      els.jobList.querySelectorAll(".job-item").forEach((item) => item.classList.remove("active"));
+      row.classList.add("active");
+      await refreshJobDetail();
+    });
+
+    els.btnCancelJob.addEventListener("click", async () => {
+      if (!state.selectedJobId) {
+        setStatus("Select a job to cancel.");
+        return;
+      }
+      try {
+        await apiPost(`/api/actions/${encodeURIComponent(state.selectedJobId)}/cancel`, {});
+        setStatus(`Cancellation requested for ${state.selectedJobId}.`);
+        await refreshJobs(true);
+      } catch (error) {
+        setStatus(`Cancel failed: ${error.message}`);
+      }
+    });
+
+    els.btnRefreshGraph.addEventListener("click", async () => {
+      try {
+        await refreshGraph();
+        setStatus("Asset graph refreshed.");
+      } catch (error) {
+        setStatus(`Graph refresh failed: ${error.message}`);
+      }
+    });
+
+    els.graphFilter.addEventListener("keydown", async (event) => {
+      if (event.key !== "Enter") return;
+      await refreshGraph();
+    });
+    els.graphTypes.addEventListener("keydown", async (event) => {
+      if (event.key !== "Enter") return;
+      await refreshGraph();
+    });
+    els.assetGraphSvg.addEventListener("click", (event) => {
+      const node = event.target.closest("g[data-node-id]");
+      if (!node) return;
+      state.selectedGraphNodeId = node.dataset.nodeId || null;
+      renderGraph();
+    });
+
+    setInterval(async () => {
+      if (!els.autoPollJobs.checked) return;
+      try {
+        await refreshJobs(true);
+      } catch (_) {
+      }
+    }, 2500);
+
+    bootstrap();
+  </script>
+</body>
+</html>

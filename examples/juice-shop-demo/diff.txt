@@ -1,0 +1,18 @@
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ WRX  |  Web Recon eXecutive                                                  │
+│ v0.1.2  •  Safe-by-default recon orchestration                               │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Only scan targets you own or have permission to test.
+ WRX Diff (20260225T065122891Z ->  
+       20260225T072418786Z)        
+┏━━━━━━━━━━━━━━━━━┳━━━━━┳━━━━━━━━━┓
+┃ Category        ┃ New ┃ Removed ┃
+┡━━━━━━━━━━━━━━━━━╇━━━━━╇━━━━━━━━━┩
+│ subdomains      │   0 │       0 │
+│ alive_hosts     │   0 │       0 │
+│ urls            │   0 │       6 │
+│ nuclei_findings │   2 │       0 │
+│ zap_findings    │   3 │       2 │
+└─────────────────┴─────┴─────────┘
+Diff JSON: /Users/sagarkishore/Cysec 
+Tools/Web-Recon-eXecutive/workspaces/juice-shop/data/diff.json

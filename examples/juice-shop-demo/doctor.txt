@@ -1,0 +1,152 @@
+                                   WRX Doctor                                   
+┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Check             ┃ Status ┃ Required ┃ Details          ┃ How To Fix        ┃
+┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│ Python version    │ PASS   │ yes      │ 3.9.6            │ -                 │
+│ WRX version       │ PASS   │ yes      │ 0.1.0            │ -                 │
+│ Workspace write   │ PASS   │ yes      │ /Users/sagarkis… │ -                 │
+│ access            │        │          │ Tools/Web-Recon… │                   │
+│ Tool: docker      │ PASS   │ yes      │ /opt/homebrew/b… │ -                 │
+│ Docker daemon     │ FAIL   │ yes      │ reachable        │ Start Docker      │
+│                   │        │          │                  │ Desktop and       │
+│                   │        │          │                  │ verify 'docker    │
+│                   │        │          │                  │ info' works.      │
+│ ZAP image         │ FAIL   │ yes      │ docker daemon    │ Start Docker      │
+│ readiness         │        │          │ unreachable      │ Desktop and       │
+│                   │        │          │ (Client: Docker  │ verify 'docker    │
+│                   │        │          │ Engine -         │ info' works.      │
+│                   │        │          │ Community        │                   │
+│                   │        │          │  Version:        │                   │
+│                   │        │          │ 29.2.1           │                   │
+│                   │        │          │  Context:        │                   │
+│                   │        │          │ desktop-linux    │                   │
+│                   │        │          │  Debug Mode:     │                   │
+│                   │        │          │ false            │                   │
+│                   │        │          │  Plugins:        │                   │
+│                   │        │          │   ai: Docker AI  │                   │
+│                   │        │          │ Agent - Ask      │                   │
+│                   │        │          │ Gordon (Docker   │                   │
+│                   │        │          │ Inc.)            │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ v1.18.0          │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   buildx: Docker │                   │
+│                   │        │          │ Buildx (Docker   │                   │
+│                   │        │          │ Inc.)            │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ v0.31.1-desktop… │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   compose:       │                   │
+│                   │        │          │ Docker Compose   │                   │
+│                   │        │          │ (Docker Inc.)    │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ v5.0.2           │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   debug: Get a   │                   │
+│                   │        │          │ shell into any   │                   │
+│                   │        │          │ image or         │                   │
+│                   │        │          │ container        │                   │
+│                   │        │          │ (Docker Inc.)    │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ 0.0.47           │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   desktop:       │                   │
+│                   │        │          │ Docker Desktop   │                   │
+│                   │        │          │ commands (Docker │                   │
+│                   │        │          │ Inc.)            │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ v0.3.0           │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   extension:     │                   │
+│                   │        │          │ Manages Docker   │                   │
+│                   │        │          │ extensions       │                   │
+│                   │        │          │ (Docker Inc.)    │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ v0.2.31          │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   init: Creates  │                   │
+│                   │        │          │ Docker-related   │                   │
+│                   │        │          │ starter files    │                   │
+│                   │        │          │ for your project │                   │
+│                   │        │          │ (Docker Inc.)    │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ v1.4.0           │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   mcp: Docker    │                   │
+│                   │        │          │ MCP Plugin       │                   │
+│                   │        │          │ (Docker Inc.)    │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ v0.39.1          │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   model: Docker  │                   │
+│                   │        │          │ Model Runner     │                   │
+│                   │        │          │ (Docker Inc.)    │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ v1.0.8           │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   offload:       │                   │
+│                   │        │          │ Docker Offload   │                   │
+│                   │        │          │ (Docker Inc.)    │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ v0.5.45          │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   pass: Docker   │                   │
+│                   │        │          │ Pass Secrets     │                   │
+│                   │        │          │ Manager Plugin   │                   │
+│                   │        │          │ (beta) (Docker   │                   │
+│                   │        │          │ Inc.)            │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ v0.0.24          │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   sandbox:       │                   │
+│                   │        │          │ Docker Sandbox   │                   │
+│                   │        │          │ (Docker Inc.)    │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ v0.12.0          │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   sbom: View the │                   │
+│                   │        │          │ packaged-based   │                   │
+│                   │        │          │ Software Bill Of │                   │
+│                   │        │          │ Materials (SBOM) │                   │
+│                   │        │          │ for an image     │                   │
+│                   │        │          │ (Anchore Inc.)   │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ 0.6.0            │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │   scout: Docker  │                   │
+│                   │        │          │ Scout (Docker    │                   │
+│                   │        │          │ Inc.)            │                   │
+│                   │        │          │     Version:     │                   │
+│                   │        │          │ v1.19.0          │                   │
+│                   │        │          │     Path:        │                   │
+│                   │        │          │ /Users/sagarkis… │                   │
+│                   │        │          │                  │                   │
+│                   │        │          │ Server:)         │                   │
+│ Tool: subfinder   │ PASS   │ yes      │ /opt/homebrew/b… │ -                 │
+│ Tool: httpx       │ PASS   │ yes      │ /opt/homebrew/b… │ -                 │
+│ Tool: katana      │ PASS   │ yes      │ /opt/homebrew/b… │ -                 │
+│ Tool: nuclei      │ PASS   │ yes      │ /opt/homebrew/b… │ -                 │
+│ Tool: ffuf        │ PASS   │ yes      │ /opt/homebrew/b… │ -                 │
+│ Juice Shop        │ FAIL   │ yes      │ http://localhos… │ Start Juice Shop  │
+│ reachable         │        │          │ ([Errno 1]       │ locally: docker   │
+│                   │        │          │ Operation not    │ run --rm -d -p    │
+│                   │        │          │ permitted);      │ 3000:3000 --name  │
+│                   │        │          │ http://127.0.0.… │ juice-shop        │
+│                   │        │          │ ([Errno 1]       │ bkimminich/juice… │
+│                   │        │          │ Operation not    │                   │
+│                   │        │          │ permitted)       │                   │
+└───────────────────┴────────┴──────────┴──────────────────┴───────────────────┘
+Doctor status: 3 required check(s) failed

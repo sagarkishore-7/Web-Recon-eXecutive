@@ -138,6 +138,8 @@ celerybeat.pid
 .env
 .envrc
 .venv
+workspaces/
+.wrx-gui/
 env/
 venv/
 ENV/

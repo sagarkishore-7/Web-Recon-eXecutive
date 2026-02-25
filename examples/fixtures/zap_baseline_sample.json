@@ -1,0 +1,51 @@
+{
+  "@programName": "OWASP ZAP",
+  "@version": "2.15.0",
+  "site": [
+    {
+      "@name": "http://host.docker.internal:3000",
+      "alerts": [
+        {
+          "pluginid": "10021",
+          "alert": "X-Content-Type-Options Header Missing",
+          "riskcode": "1",
+          "riskdesc": "Low (Medium)",
+          "confidence": "Medium",
+          "desc": "The anti-MIME-sniffing header X-Content-Type-Options was not set to 'nosniff'.",
+          "instances": [
+            {
+              "uri": "http://host.docker.internal:3000/#/",
+              "method": "GET",
+              "evidence": "X-Content-Type-Options"
+            }
+          ],
+          "count": "1",
+          "solution": "Ensure that the application/web server sets Content-Type appropriately and sets the X-Content-Type-Options header to 'nosniff'.",
+          "reference": "https://owasp.org/www-project-secure-headers/",
+          "cweid": "16",
+          "wascid": "15"
+        },
+        {
+          "pluginid": "10038",
+          "alert": "Content Security Policy (CSP) Header Not Set",
+          "riskcode": "2",
+          "riskdesc": "Medium (Medium)",
+          "confidence": "High",
+          "desc": "Content Security Policy is an added layer of security that helps to detect and mitigate certain types of attacks.",
+          "instances": [
+            {
+              "uri": "http://host.docker.internal:3000/",
+              "method": "GET",
+              "evidence": "content-security-policy"
+            }
+          ],
+          "count": "1",
+          "solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header.",
+          "reference": "https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP",
+          "cweid": "693",
+          "wascid": "15"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WRX Report - {{ metadata.target }}</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --ink: #16213a;
+      --muted: #51607e;
+      --card: #ffffff;
+      --line: #dbe3f0;
+      --critical: #7a0013;
+      --high: #b81f2d;
+      --medium: #d87706;
+      --low: #2f6f8f;
+      --info: #3d4d6d;
+      --accent: #0e4aa8;
+    }
+    body {
+      margin: 0;
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 10% 0%, #e7eefc 0, var(--bg) 45%, #edf3ff 100%);
+      line-height: 1.4;
+    }
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero {
+      background: linear-gradient(120deg, #0f2c63, #1f4f96);
+      color: #fff;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(8, 28, 70, 0.2);
+    }
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 1.7rem;
+    }
+    .hero p {
+      margin: 0;
+      color: #d8e4ff;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .card strong {
+      display: block;
+      font-size: 1.3rem;
+    }
+    h2 {
+      margin: 24px 0 10px;
+      font-size: 1.1rem;
+      letter-spacing: 0.02em;
+      color: #0f2c63;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      font-size: 0.93rem;
+      word-break: break-word;
+    }
+    th {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: #f9fbff;
+      letter-spacing: 0.03em;
+    }
+    tr:last-child td { border-bottom: none; }
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      color: #fff;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .critical { background: var(--critical); }
+    .high { background: var(--high); }
+    .medium { background: var(--medium); }
+    .low { background: var(--low); }
+    .info, .informational, .unknown { background: var(--info); }
+    ul { margin-top: 8px; }
+    a { color: var(--accent); }
+    @media (max-width: 640px) {
+      .wrap { padding: 14px; }
+      .hero { border-radius: 10px; }
+      table, th, td { font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>WRX Recon Report</h1>
+      <p>
+        Target: <strong>{{ metadata.target }}</strong><br>
+        Run ID: {{ metadata.run_id }}<br>
+        Preset: {{ metadata.preset }}<br>
+        Generated: {{ metadata.timestamp }}
+      </p>
+    </section>
+
+    <section class="grid">
+      <div class="card"><span>Subdomains</span><strong>{{ counts.subdomains or 0 }}</strong></div>
+      <div class="card"><span>Alive Hosts</span><strong>{{ counts.alive_hosts or 0 }}</strong></div>
+      <div class="card"><span>URLs</span><strong>{{ counts.urls or 0 }}</strong></div>
+      <div class="card"><span>Nuclei Findings</span><strong>{{ counts.nuclei_findings or 0 }}</strong></div>
+      <div class="card"><span>ZAP Findings</span><strong>{{ counts.zap_findings or 0 }}</strong></div>
+    </section>
+
+    <h2>Top Findings By Severity</h2>
+    <table>
+      <thead>
+        <tr><th>Severity</th><th>Count</th></tr>
+      </thead>
+      <tbody>
+        {% for severity, count in severity_counts %}
+        <tr>
+          <td><span class="pill {{ severity }}">{{ severity }}</span></td>
+          <td>{{ count }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="2">No findings.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>Findings</h2>
+    <table>
+      <thead>
+        <tr><th>Template ID</th><th>Severity</th><th>Name</th><th>Matched At</th></tr>
+      </thead>
+      <tbody>
+        {% for f in findings %}
+        <tr>
+          <td>{{ f.template_id }}</td>
+          <td><span class="pill {{ f.severity|lower }}">{{ f.severity }}</span></td>
+          <td>{{ f.name }}</td>
+          <td>{{ f.matched_at }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4">No nuclei findings.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>ZAP Baseline Findings</h2>
+    <table>
+      <thead>
+        <tr><th>Risk</th><th>Count</th></tr>
+      </thead>
+      <tbody>
+        {% for risk, count in zap_risk_counts %}
+        <tr>
+          <td><span class="pill {{ risk|lower }}">{{ risk }}</span></td>
+          <td>{{ count }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="2">No ZAP findings.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <table style="margin-top:10px;">
+      <thead>
+        <tr><th>Risk</th><th>Alert</th><th>URL</th><th>Confidence</th></tr>
+      </thead>
+      <tbody>
+        {% for z in zap_findings %}
+        <tr>
+          <td><span class="pill {{ z.risk|lower }}">{{ z.risk }}</span></td>
+          <td>{{ z.alert }}</td>
+          <td>{{ z.url or '-' }}</td>
+          <td>{{ z.confidence }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4">No ZAP baseline findings.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>ZAP Raw Artifacts</h2>
+    <ul>
+      <li><a href="{{ zap_artifacts.zap_json or 'raw/zap_baseline/zap.json' }}">zap.json</a></li>
+      <li><a href="{{ zap_artifacts.zap_html or 'raw/zap_baseline/zap.html' }}">zap.html</a></li>
+    </ul>
+
+    <h2>Triage</h2>
+    {% if triage and triage.enabled %}
+    <p>
+      Cluster Count: {{ triage.cluster_count or 0 }}<br>
+      LLM Used: {{ 'yes' if triage.llm_used else 'no' }}
+    </p>
+    <ul>
+      {% for item in triage.recommendations or [] %}
+      <li>{{ item }}</li>
+      {% else %}
+      <li>No recommendations generated.</li>
+      {% endfor %}
+    </ul>
+    {% if triage.llm_summary %}
+    <pre style="white-space: pre-wrap; background:#f7fbff; border:1px solid var(--line); border-radius:8px; padding:10px;">{{ triage.llm_summary }}</pre>
+    {% endif %}
+    {% else %}
+    <p>Triage was not enabled for this run.</p>
+    {% endif %}
+
+    <h2>Fuzz Context Wordlist</h2>
+    <p>
+      {% if fuzz_context_words %}
+      {{ fuzz_context_words|join(', ') }}
+      {% else %}
+      No context words recorded.
+      {% endif %}
+    </p>
+
+    <h2>Alive Hosts</h2>
+    <table>
+      <thead>
+        <tr><th>URL</th><th>Status</th><th>Title</th><th>Tech</th></tr>
+      </thead>
+      <tbody>
+        {% for host in alive_hosts %}
+        <tr>
+          <td>{{ host.url }}</td>
+          <td>{{ host.status_code }}</td>
+          <td>{{ host.title or '-' }}</td>
+          <td>{{ (host.tech or [])|join(', ') or '-' }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4">No alive hosts captured.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>Raw Stage Output Links</h2>
+    <ul>
+      {% for stage, rel in raw_links.items() %}
+      <li><a href="{{ rel }}">{{ stage }}</a></li>
+      {% endfor %}
+    </ul>
+  </main>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "status": "completed",
+  "nuclei_findings": [
+    {
+      "template_id": "misconfig/cors-wildcard",
+      "severity": "medium",
+      "name": "Wildcard CORS",
+      "matched_at": "https://api.example.com",
+      "extracted_results": ["Access-Control-Allow-Origin: *"],
+      "timestamp": "2026-02-19T07:15:00+00:00",
+      "hash": "f9e0360f4ef8adf1a339cf105c95771879c8ca1a"
+    }
+  ]
+}

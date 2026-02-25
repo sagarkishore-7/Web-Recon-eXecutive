@@ -1,0 +1,11 @@
+{
+  "status": "completed",
+  "urls": [
+    {
+      "url": "https://app.example.com/admin",
+      "source_stage": "fuzz",
+      "discovered_at": "2026-02-19T07:12:10+00:00",
+      "hash": "f0b9128aade9b90f4d2d2afa7de4fef2f0e56d4a"
+    }
+  ]
+}

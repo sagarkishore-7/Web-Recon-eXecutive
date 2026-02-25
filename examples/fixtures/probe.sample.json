@@ -1,0 +1,19 @@
+{
+  "status": "completed",
+  "alive_hosts": [
+    {
+      "url": "https://app.example.com",
+      "status_code": 200,
+      "title": "Example App",
+      "tech": ["nginx", "react"],
+      "hash": "2f6ca537f3d64001f70c45d467a98ca7d95f4ef6"
+    },
+    {
+      "url": "https://api.example.com",
+      "status_code": 401,
+      "title": "Unauthorized",
+      "tech": ["fastapi"],
+      "hash": "f539387a010ce0034ef57b4d4ef3f529f16e6762"
+    }
+  ]
+}

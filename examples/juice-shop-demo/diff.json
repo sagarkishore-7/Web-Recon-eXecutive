@@ -1,0 +1,47 @@
+{
+  "changes": {
+    "alive_hosts": {
+      "new": [],
+      "removed": []
+    },
+    "nuclei_findings": {
+      "new": [
+        "http-missing-security-headers::http://localhost:3000",
+        "missing-sri::http://localhost:3000/"
+      ],
+      "removed": []
+    },
+    "subdomains": {
+      "new": [],
+      "removed": []
+    },
+    "urls": {
+      "new": [],
+      "removed": [
+        "http://localhost:3000",
+        "http://localhost:3000/main.js",
+        "http://localhost:3000/polyfills.js",
+        "http://localhost:3000/runtime.js",
+        "http://localhost:3000/styles.css",
+        "http://localhost:3000/vendor.js"
+      ]
+    },
+    "zap_findings": {
+      "new": [
+        "10049::http://host.docker.internal:3000/ftp/eastere.gg",
+        "10096::http://host.docker.internal:3000/styles.css",
+        "10098::http://host.docker.internal:3000/assets/public/favicon_js.ico"
+      ],
+      "removed": [
+        "10096::http://host.docker.internal:3000",
+        "10098::http://host.docker.internal:3000/polyfills.js"
+      ]
+    }
+  },
+  "meta": {
+    "compared_at": "2026-02-25T07:31:23+00:00",
+    "current_run": "20260225T072418786Z",
+    "last": 1,
+    "previous_run": "20260225T065122891Z"
+  }
+}

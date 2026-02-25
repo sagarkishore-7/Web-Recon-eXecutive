@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WRX Report - juice-shop</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --ink: #16213a;
+      --muted: #51607e;
+      --card: #ffffff;
+      --line: #dbe3f0;
+      --critical: #7a0013;
+      --high: #b81f2d;
+      --medium: #d87706;
+      --low: #2f6f8f;
+      --info: #3d4d6d;
+      --accent: #0e4aa8;
+    }
+    body {
+      margin: 0;
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 10% 0%, #e7eefc 0, var(--bg) 45%, #edf3ff 100%);
+      line-height: 1.4;
+    }
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero {
+      background: linear-gradient(120deg, #0f2c63, #1f4f96);
+      color: #fff;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(8, 28, 70, 0.2);
+    }
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 1.7rem;
+    }
+    .hero p {
+      margin: 0;
+      color: #d8e4ff;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .card strong {
+      display: block;
+      font-size: 1.3rem;
+    }
+    h2 {
+      margin: 24px 0 10px;
+      font-size: 1.1rem;
+      letter-spacing: 0.02em;
+      color: #0f2c63;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      font-size: 0.93rem;
+      word-break: break-word;
+    }
+    th {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: #f9fbff;
+      letter-spacing: 0.03em;
+    }
+    tr:last-child td { border-bottom: none; }
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      color: #fff;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .critical { background: var(--critical); }
+    .high { background: var(--high); }
+    .medium { background: var(--medium); }
+    .low { background: var(--low); }
+    .info, .informational, .unknown { background: var(--info); }
+    ul { margin-top: 8px; }
+    a { color: var(--accent); }
+    @media (max-width: 640px) {
+      .wrap { padding: 14px; }
+      .hero { border-radius: 10px; }
+      table, th, td { font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>WRX Recon Report</h1>
+      <p>
+        Target: <strong>juice-shop</strong><br>
+        Run ID: 20260224T051336866Z<br>
+        Preset: quick<br>
+        Generated: 2026-02-24T05:17:08+00:00
+      </p>
+    </section>
+
+    <section class="grid">
+      <div class="card"><span>Subdomains</span><strong>0</strong></div>
+      <div class="card"><span>Alive Hosts</span><strong>1</strong></div>
+      <div class="card"><span>URLs</span><strong>0</strong></div>
+      <div class="card"><span>Nuclei Findings</span><strong>2</strong></div>
+      <div class="card"><span>ZAP Findings</span><strong>13</strong></div>
+    </section>
+
+    <h2>Top Findings By Severity</h2>
+    <table>
+      <thead>
+        <tr><th>Severity</th><th>Count</th></tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><span class="pill info">info</span></td>
+          <td>2</td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <h2>Findings</h2>
+    <table>
+      <thead>
+        <tr><th>Template ID</th><th>Severity</th><th>Name</th><th>Matched At</th></tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>missing-sri</td>
+          <td><span class="pill info">info</span></td>
+          <td>Missing Subresource Integrity</td>
+          <td>http://localhost:3000/</td>
+        </tr>
+        
+        <tr>
+          <td>http-missing-security-headers</td>
+          <td><span class="pill info">info</span></td>
+          <td>HTTP Missing Security Headers</td>
+          <td>http://localhost:3000</td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <h2>ZAP Baseline Findings</h2>
+    <table>
+      <thead>
+        <tr><th>Risk</th><th>Count</th></tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><span class="pill medium">medium</span></td>
+          <td>2</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill low">low</span></td>
+          <td>6</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill informational">informational</span></td>
+          <td>5</td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <table style="margin-top:10px;">
+      <thead>
+        <tr><th>Risk</th><th>Alert</th><th>URL</th><th>Confidence</th></tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><span class="pill medium">Medium</span></td>
+          <td>Content Security Policy (CSP) Header Not Set</td>
+          <td>http://host.docker.internal:3000</td>
+          <td>3</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill medium">Medium</span></td>
+          <td>Cross-Domain Misconfiguration</td>
+          <td>http://host.docker.internal:3000/polyfills.js</td>
+          <td>2</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill low">Low</span></td>
+          <td>Cross-Domain JavaScript Source File Inclusion</td>
+          <td>http://host.docker.internal:3000</td>
+          <td>2</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill low">Low</span></td>
+          <td>Cross-Origin-Embedder-Policy Header Missing or Invalid</td>
+          <td>http://host.docker.internal:3000</td>
+          <td>2</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill low">Low</span></td>
+          <td>Cross-Origin-Opener-Policy Header Missing or Invalid</td>
+          <td>http://host.docker.internal:3000</td>
+          <td>2</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill low">Low</span></td>
+          <td>Dangerous JS Functions</td>
+          <td>http://host.docker.internal:3000/main.js</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill low">Low</span></td>
+          <td>Deprecated Feature Policy Header Set</td>
+          <td>http://host.docker.internal:3000</td>
+          <td>2</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill low">Low</span></td>
+          <td>Timestamp Disclosure - Unix</td>
+          <td>http://host.docker.internal:3000/main.js</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill informational">Informational</span></td>
+          <td>Information Disclosure - Suspicious Comments</td>
+          <td>http://host.docker.internal:3000/main.js</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill informational">Informational</span></td>
+          <td>Modern Web Application</td>
+          <td>http://host.docker.internal:3000</td>
+          <td>2</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill informational">Informational</span></td>
+          <td>Non-Storable Content</td>
+          <td>http://host.docker.internal:3000/ftp/eastere.gg</td>
+          <td>2</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill informational">Informational</span></td>
+          <td>Storable and Cacheable Content</td>
+          <td>http://host.docker.internal:3000/robots.txt</td>
+          <td>2</td>
+        </tr>
+        
+        <tr>
+          <td><span class="pill informational">Informational</span></td>
+          <td>Storable but Non-Cacheable Content</td>
+          <td>http://host.docker.internal:3000</td>
+          <td>2</td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <h2>ZAP Raw Artifacts</h2>
+    <ul>
+      <li><a href="raw/zap_baseline/zap.json">zap.json</a></li>
+      <li><a href="raw/zap_baseline/zap.html">zap.html</a></li>
+    </ul>
+
+    <h2>Alive Hosts</h2>
+    <table>
+      <thead>
+        <tr><th>URL</th><th>Status</th><th>Title</th><th>Tech</th></tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>http://localhost:3000</td>
+          <td>200</td>
+          <td>OWASP Juice Shop</td>
+          <td>Cloudflare, Onsen UI, Osano:3.1.0, cdnjs, jQuery:2.2.4</td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <h2>Raw Stage Output Links</h2>
+    <ul>
+      
+      <li><a href="raw/subdomains/">subdomains</a></li>
+      
+      <li><a href="raw/probe/">probe</a></li>
+      
+      <li><a href="raw/crawl/">crawl</a></li>
+      
+      <li><a href="raw/fuzz/">fuzz</a></li>
+      
+      <li><a href="raw/scan/">scan</a></li>
+      
+      <li><a href="raw/zap_baseline/">zap_baseline</a></li>
+      
+    </ul>
+  </main>
+</body>
+</html>

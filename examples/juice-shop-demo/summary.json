@@ -1,0 +1,445 @@
+{
+  "alive_hosts": [
+    {
+      "hash": "73e6b639e4cc7d00ac369c5350f0ac6685460b0e",
+      "status_code": 200,
+      "tech": [
+        "Cloudflare",
+        "Onsen UI",
+        "Osano:3.1.0",
+        "cdnjs",
+        "jQuery:2.2.4"
+      ],
+      "title": "OWASP Juice Shop",
+      "url": "http://localhost:3000"
+    }
+  ],
+  "counts": {
+    "alive_hosts": 1,
+    "nuclei_findings": 2,
+    "subdomains": 0,
+    "urls": 0,
+    "zap_findings": 13
+  },
+  "fuzz_context_words": [],
+  "metadata": {
+    "artifact_paths": {
+      "zap_html": "raw/zap_baseline/zap.html",
+      "zap_json": "raw/zap_baseline/zap.json"
+    },
+    "preset": "quick",
+    "run_id": "20260225T072418786Z",
+    "target": "juice-shop",
+    "timestamp": "2026-02-25T07:27:36+00:00",
+    "tool_versions": {
+      "docker": "unknown shorthand flag: 'e' in -ersion",
+      "ffuf": "Fuzz Faster U Fool - v2.1.0-dev",
+      "httpx": "Usage: httpx [OPTIONS] URL",
+      "katana": "__        __",
+      "nuclei": "[\u001b[34mINF\u001b[0m] Nuclei Engine Version: v3.7.0",
+      "subfinder": "[\u001b[34mINF\u001b[0m] Current Version: v2.12.0"
+    }
+  },
+  "nuclei_findings": [
+    {
+      "extracted_results": [
+        "//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js",
+        "//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js",
+        "//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css"
+      ],
+      "hash": "da2c8c779c6f26e8563354dd36cfcf63552eeada",
+      "matched_at": "http://localhost:3000/",
+      "name": "Missing Subresource Integrity",
+      "severity": "info",
+      "template_id": "missing-sri",
+      "timestamp": "2026-02-25T12:55:51.837299+05:30"
+    },
+    {
+      "extracted_results": [],
+      "hash": "273470ed2454dda0229fe8bb5f9bd81aea35c942",
+      "matched_at": "http://localhost:3000",
+      "name": "HTTP Missing Security Headers",
+      "severity": "info",
+      "template_id": "http-missing-security-headers",
+      "timestamp": "2026-02-25T12:56:14.84112+05:30"
+    }
+  ],
+  "subdomains": [],
+  "triage": {
+    "cluster_count": 15,
+    "clusters": [
+      {
+        "count": 1,
+        "examples": [
+          "http://localhost:3000/"
+        ],
+        "id": "4d6f0e14900c",
+        "severity": "info",
+        "signature": "nuclei::missing-sri::info::missing subresource integrity",
+        "source": "nuclei",
+        "title": "Missing Subresource Integrity"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://localhost:3000"
+        ],
+        "id": "05d36e436626",
+        "severity": "info",
+        "signature": "nuclei::http-missing-security-headers::info::http missing security headers",
+        "source": "nuclei",
+        "title": "HTTP Missing Security Headers"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000"
+        ],
+        "id": "14e4bb1cce2c",
+        "severity": "Medium",
+        "signature": "zap::10038::medium::content security policy (csp) header not set",
+        "source": "zap",
+        "title": "Content Security Policy (CSP) Header Not Set"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000/assets/public/favicon_js.ico"
+        ],
+        "id": "e6bde08974b4",
+        "severity": "Medium",
+        "signature": "zap::10098::medium::cross-domain misconfiguration",
+        "source": "zap",
+        "title": "Cross-Domain Misconfiguration"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000"
+        ],
+        "id": "20a09a1fc07d",
+        "severity": "Low",
+        "signature": "zap::10017::low::cross-domain javascript source file inclusion",
+        "source": "zap",
+        "title": "Cross-Domain JavaScript Source File Inclusion"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000"
+        ],
+        "id": "7e7070bfb6c3",
+        "severity": "Low",
+        "signature": "zap::90004::low::cross-origin-embedder-policy header missing or invalid",
+        "source": "zap",
+        "title": "Cross-Origin-Embedder-Policy Header Missing or Invalid"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000"
+        ],
+        "id": "2410392ddf0a",
+        "severity": "Low",
+        "signature": "zap::90004::low::cross-origin-opener-policy header missing or invalid",
+        "source": "zap",
+        "title": "Cross-Origin-Opener-Policy Header Missing or Invalid"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000/main.js"
+        ],
+        "id": "cea4388429cb",
+        "severity": "Low",
+        "signature": "zap::10110::low::dangerous js functions",
+        "source": "zap",
+        "title": "Dangerous JS Functions"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000"
+        ],
+        "id": "1484bcf5e645",
+        "severity": "Low",
+        "signature": "zap::10063::low::deprecated feature policy header set",
+        "source": "zap",
+        "title": "Deprecated Feature Policy Header Set"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000/styles.css"
+        ],
+        "id": "1f1960ce1e91",
+        "severity": "Low",
+        "signature": "zap::10096::low::timestamp disclosure - unix",
+        "source": "zap",
+        "title": "Timestamp Disclosure - Unix"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000/main.js"
+        ],
+        "id": "f485704d45d3",
+        "severity": "Informational",
+        "signature": "zap::10027::informational::information disclosure - suspicious comments",
+        "source": "zap",
+        "title": "Information Disclosure - Suspicious Comments"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000"
+        ],
+        "id": "5fa1d9c502e5",
+        "severity": "Informational",
+        "signature": "zap::10109::informational::modern web application",
+        "source": "zap",
+        "title": "Modern Web Application"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000/ftp/eastere.gg"
+        ],
+        "id": "c51e63891846",
+        "severity": "Informational",
+        "signature": "zap::10049::informational::non-storable content",
+        "source": "zap",
+        "title": "Non-Storable Content"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000/robots.txt"
+        ],
+        "id": "3d017d1f522b",
+        "severity": "Informational",
+        "signature": "zap::10049::informational::storable and cacheable content",
+        "source": "zap",
+        "title": "Storable and Cacheable Content"
+      },
+      {
+        "count": 1,
+        "examples": [
+          "http://host.docker.internal:3000"
+        ],
+        "id": "dc832e1907cb",
+        "severity": "Informational",
+        "signature": "zap::10049::informational::storable but non-cacheable content",
+        "source": "zap",
+        "title": "Storable but Non-Cacheable Content"
+      }
+    ],
+    "enabled": true,
+    "llm_error": "",
+    "llm_summary": "- Address Missing Subresource Integrity issues to prevent potential tampering of resources.\n- Implement necessary HTTP Security Headers for enhanced protection.\n- Set Content Security Policy (CSP) Header to mitigate risks from malicious scripts and content.\n- Review and correct Cross-Domain configurations to avoid unauthorized access or data leakage.\n- Ensure proper Cross-Origin policies are set to protect against JavaScript source inclusion vulnerabilities.\n- Remediate any dangerous JS functions identified to reduce potential attack vectors.",
+    "llm_used": true,
+    "recommendations": [
+      "Prioritize 0 high-impact cluster(s) first.",
+      "Validate recurring exposures across sources: nuclei=2, zap=13.",
+      "Apply quick wins: security headers, CSP hardening, and least-privilege endpoint access."
+    ]
+  },
+  "urls": [],
+  "zap_findings": [
+    {
+      "alert": "Content Security Policy (CSP) Header Not Set",
+      "confidence": "3",
+      "cweid": "693",
+      "description": "<p>Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data t...",
+      "evidence": "",
+      "hash": "b7fa5d611f653a29e800000f19ebfa815543f0fc",
+      "instances": 5,
+      "plugin_id": "10038",
+      "reference": "<p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP</p><p>https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html</p><p>https://www.w3.org/TR/CSP/</p><p>https://w3c.github.io/webappsec-csp/</p>...",
+      "risk": "Medium",
+      "solution": "<p>Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header.</p>",
+      "url": "http://host.docker.internal:3000",
+      "wascid": "15"
+    },
+    {
+      "alert": "Cross-Domain Misconfiguration",
+      "confidence": "2",
+      "cweid": "264",
+      "description": "<p>Web browser data loading may be possible, due to a Cross Origin Resource Sharing (CORS) misconfiguration on the web server.</p>",
+      "evidence": "Access-Control-Allow-Origin: *",
+      "hash": "776e7b4ea1292e906b9ef315b6114c3ea65c8c10",
+      "instances": 5,
+      "plugin_id": "10098",
+      "reference": "<p>https://vulncat.fortify.com/en/detail?category=HTML5&subcategory=Overly%20Permissive%20CORS%20Policy</p>",
+      "risk": "Medium",
+      "solution": "<p>Ensure that sensitive data is not available in an unauthenticated manner (using IP address white-listing, for instance).</p><p>Configure the \"Access-Control-Allow-Origin\" HTTP header to a more restrictive set of domains, or remove all...",
+      "url": "http://host.docker.internal:3000/assets/public/favicon_js.ico",
+      "wascid": "14"
+    },
+    {
+      "alert": "Cross-Domain JavaScript Source File Inclusion",
+      "confidence": "2",
+      "cweid": "829",
+      "description": "<p>The page includes one or more script files from a third-party domain.</p>",
+      "evidence": "<script src=\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\"></script>",
+      "hash": "4d3a58788cef28c32ecfb0f2ddeb01484197a54e",
+      "instances": 5,
+      "plugin_id": "10017",
+      "reference": "",
+      "risk": "Low",
+      "solution": "<p>Ensure JavaScript source files are loaded from only trusted sources, and the sources can't be controlled by end users of the application.</p>",
+      "url": "http://host.docker.internal:3000",
+      "wascid": "15"
+    },
+    {
+      "alert": "Cross-Origin-Embedder-Policy Header Missing or Invalid",
+      "confidence": "2",
+      "cweid": "693",
+      "description": "<p>Cross-Origin-Embedder-Policy header is a response header that prevents a document from loading any cross-origin resources that don't explicitly grant the document permission (using CORP or CORS).</p>",
+      "evidence": "",
+      "hash": "3acef6996b0bca7838daeadab7bd9bf147c8ca47",
+      "instances": 5,
+      "plugin_id": "90004",
+      "reference": "<p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy</p>",
+      "risk": "Low",
+      "solution": "<p>Ensure that the application/web server sets the Cross-Origin-Embedder-Policy header appropriately, and that it sets the Cross-Origin-Embedder-Policy header to 'require-corp' for documents.</p><p>If possible, ensure that the end user u...",
+      "url": "http://host.docker.internal:3000",
+      "wascid": "14"
+    },
+    {
+      "alert": "Cross-Origin-Opener-Policy Header Missing or Invalid",
+      "confidence": "2",
+      "cweid": "693",
+      "description": "<p>Cross-Origin-Opener-Policy header is a response header that allows a site to control if others included documents share the same browsing context. Sharing the same browsing context with untrusted documents might lead to data leak.</p>",
+      "evidence": "",
+      "hash": "79324316ef1c4752f481da1117a534748259d6ae",
+      "instances": 5,
+      "plugin_id": "90004",
+      "reference": "<p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy</p>",
+      "risk": "Low",
+      "solution": "<p>Ensure that the application/web server sets the Cross-Origin-Opener-Policy header appropriately, and that it sets the Cross-Origin-Opener-Policy header to 'same-origin' for documents.</p><p>'same-origin-allow-popups' is considered as ...",
+      "url": "http://host.docker.internal:3000",
+      "wascid": "14"
+    },
+    {
+      "alert": "Dangerous JS Functions",
+      "confidence": "1",
+      "cweid": "749",
+      "description": "<p>A dangerous JS function seems to be in use that would leave the site vulnerable.</p>",
+      "evidence": "bypassSecurityTrustHtml(",
+      "hash": "a4ea2c33304db3f3544be6fdcdec284b4a0cb7a8",
+      "instances": 2,
+      "plugin_id": "10110",
+      "reference": "<p>https://v17.angular.io/guide/security</p>",
+      "risk": "Low",
+      "solution": "<p>See the references for security advice on the use of these functions.</p>",
+      "url": "http://host.docker.internal:3000/main.js",
+      "wascid": "-1"
+    },
+    {
+      "alert": "Deprecated Feature Policy Header Set",
+      "confidence": "2",
+      "cweid": "16",
+      "description": "<p>The header has now been renamed to Permissions-Policy.</p>",
+      "evidence": "Feature-Policy",
+      "hash": "785c8975c87f8afa04d7928fe8284d8a3f4cabee",
+      "instances": 5,
+      "plugin_id": "10063",
+      "reference": "<p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy</p><p>https://scotthelme.co.uk/goodbye-feature-policy-and-hello-permissions-policy/</p>",
+      "risk": "Low",
+      "solution": "<p>Ensure that your web server, application server, load balancer, etc. is configured to set the Permissions-Policy header instead of the Feature-Policy header.</p>",
+      "url": "http://host.docker.internal:3000",
+      "wascid": "15"
+    },
+    {
+      "alert": "Timestamp Disclosure - Unix",
+      "confidence": "1",
+      "cweid": "497",
+      "description": "<p>A timestamp was disclosed by the application/web server. - Unix</p>",
+      "evidence": "1680327869",
+      "hash": "32ab33cb9e84671675c77380514d62221837ffa9",
+      "instances": 5,
+      "plugin_id": "10096",
+      "reference": "<p>https://cwe.mitre.org/data/definitions/200.html</p>",
+      "risk": "Low",
+      "solution": "<p>Manually confirm that the timestamp data is not sensitive, and that the data cannot be aggregated to disclose exploitable patterns.</p>",
+      "url": "http://host.docker.internal:3000/styles.css",
+      "wascid": "13"
+    },
+    {
+      "alert": "Information Disclosure - Suspicious Comments",
+      "confidence": "1",
+      "cweid": "615",
+      "description": "<p>The response appears to contain suspicious comments which may help an attacker.</p>",
+      "evidence": "query",
+      "hash": "f583b6595d6d99ada16a331a38401f121ebbe12d",
+      "instances": 2,
+      "plugin_id": "10027",
+      "reference": "",
+      "risk": "Informational",
+      "solution": "<p>Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.</p>",
+      "url": "http://host.docker.internal:3000/main.js",
+      "wascid": "13"
+    },
+    {
+      "alert": "Modern Web Application",
+      "confidence": "2",
+      "cweid": "-1",
+      "description": "<p>The application appears to be a modern web application. If you need to explore it automatically then the Ajax Spider may well be more effective than the standard one.</p>",
+      "evidence": "<script src=\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\"></script>",
+      "hash": "17429f1c151e19c56e77df3ffdacbbe73a55f9fe",
+      "instances": 5,
+      "plugin_id": "10109",
+      "reference": "",
+      "risk": "Informational",
+      "solution": "<p>This is an informational alert and so no changes are required.</p>",
+      "url": "http://host.docker.internal:3000",
+      "wascid": "-1"
+    },
+    {
+      "alert": "Non-Storable Content",
+      "confidence": "2",
+      "cweid": "524",
+      "description": "<p>The response contents are not storable by caching components such as proxy servers. If the response does not contain sensitive, personal or user-specific information, it may benefit from being stored and cached, to improve performance...",
+      "evidence": "403",
+      "hash": "4c72d7793eeebab8da37734f246c02bf4da1ab4f",
+      "instances": 2,
+      "plugin_id": "10049",
+      "reference": "<p>https://datatracker.ietf.org/doc/html/rfc7234</p><p>https://datatracker.ietf.org/doc/html/rfc7231</p><p>https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html</p>",
+      "risk": "Informational",
+      "solution": "<p>The content may be marked as storable by ensuring that the following conditions are satisfied:</p><p>The request method must be understood by the cache and defined as being cacheable (\"GET\", \"HEAD\", and \"POST\" are currently defined as...",
+      "url": "http://host.docker.internal:3000/ftp/eastere.gg",
+      "wascid": "13"
+    },
+    {
+      "alert": "Storable and Cacheable Content",
+      "confidence": "2",
+      "cweid": "524",
+      "description": "<p>The response contents are storable by caching components such as proxy servers, and may be retrieved directly from the cache, rather than from the origin server by the caching servers, in response to similar requests from other users....",
+      "evidence": "",
+      "hash": "1f0096fd2fa9d08878c67f7b7264c6d61a3925eb",
+      "instances": 1,
+      "plugin_id": "10049",
+      "reference": "<p>https://datatracker.ietf.org/doc/html/rfc7234</p><p>https://datatracker.ietf.org/doc/html/rfc7231</p><p>https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html</p>",
+      "risk": "Informational",
+      "solution": "<p>Validate that the response does not contain sensitive, personal or user-specific information. If it does, consider the use of the following HTTP response headers, to limit, or prevent the content being stored and retrieved from the ca...",
+      "url": "http://host.docker.internal:3000/robots.txt",
+      "wascid": "13"
+    },
+    {
+      "alert": "Storable but Non-Cacheable Content",
+      "confidence": "2",
+      "cweid": "524",
+      "description": "<p>The response contents are storable by caching components such as proxy servers, but will not be retrieved directly from the cache, without validating the request upstream, in response to similar requests from other users.</p>",
+      "evidence": "max-age=0",
+      "hash": "89a67f15ecb28d37c0f36921ab80c593dbc63878",
+      "instances": 5,
+      "plugin_id": "10049",
+      "reference": "<p>https://datatracker.ietf.org/doc/html/rfc7234</p><p>https://datatracker.ietf.org/doc/html/rfc7231</p><p>https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html</p>",
+      "risk": "Informational",
+      "solution": "",
+      "url": "http://host.docker.internal:3000",
+      "wascid": "13"
+    }
+  ]
+}

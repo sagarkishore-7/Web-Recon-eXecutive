@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "subdomains": [
+    "api.example.com",
+    "app.example.com",
+    "www.example.com"
+  ]
+}

@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WRX CLI Showcase</title>
+<style>
+:root {
+  --bg0:#0b1220;
+  --bg1:#111a2b;
+  --card:#0f1726;
+  --text:#e6edf7;
+  --muted:#9fb0c7;
+  --line:#2b3a55;
+  --ok:#40d086;
+  --accent:#64b5ff;
+}
+* { box-sizing:border-box; }
+html, body {
+  width:1600px;
+  height:900px;
+  overflow:hidden;
+  background:#070d1b;
+}
+body {
+  margin:0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  color:var(--text);
+  background: radial-gradient(1200px 600px at 20% -10%, #1a2b48 0%, var(--bg0) 55%), linear-gradient(120deg,var(--bg0),var(--bg1));
+}
+.wrap {
+  width: 1600px;
+  height: 900px;
+  margin: 0 auto;
+  padding: 36px;
+  display:grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap:24px;
+}
+.card {
+  border:1px solid var(--line);
+  border-radius:16px;
+  background: rgba(12,19,33,0.88);
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  overflow:hidden;
+}
+.header {
+  padding:16px 20px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.title { font-size:20px; font-weight:700; letter-spacing:.2px; }
+.badge {
+  font-size:12px;
+  color:var(--ok);
+  border:1px solid #235a3f;
+  background:#10281c;
+  padding:4px 10px;
+  border-radius:999px;
+}
+pre {
+  margin:0;
+  padding:18px 20px;
+  font-size:14px;
+  line-height:1.35;
+  white-space:pre;
+  overflow:hidden;
+}
+.panel { padding:20px; display:flex; flex-direction:column; gap:16px; }
+h1 { margin:0; font-size:34px; font-weight:800; letter-spacing:.2px; }
+.sub { margin:0; color:var(--muted); font-size:15px; line-height:1.45; }
+.kpis { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:8px; }
+.kpi {
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
+  background:#0d1524;
+}
+.kpi .label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.6px; }
+.kpi .val { margin-top:6px; font-size:26px; font-weight:700; color:var(--accent); }
+.cmd {
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 12px;
+  background:#0b1220;
+  color:#d0e2ff;
+  font-size:14px;
+}
+.footer { margin-top:auto; color:var(--muted); font-size:12px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card">
+      <div class="header">
+        <div class="title">CLI Preflight Snapshot</div>
+        <div class="badge">All checks passed</div>
+      </div>
+      <pre>╭──────────────────────────────────────────────────────────────────────────────╮
+│ WRX  |  Web Recon eXecutive                                                  │
+│ v0.1.2  •  Safe-by-default recon orchestration                               │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Only scan targets you own or have permission to test.
+                                   WRX Doctor                                   
+┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Check                ┃ Status ┃ Required ┃ Details              ┃ How To Fix ┃
+┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ Python version       │ PASS   │ yes      │ 3.9.6                │ -          │
+│ WRX version          │ PASS   │ yes      │ 0.1.2                │ -          │
+│ Workspace write      │ PASS   │ yes      │ /Users/sagarkishore… │ -          │
+│ access               │        │          │ Tools/Web-Recon-eXe… │            │
+│ Tool: docker         │ PASS   │ yes      │ /opt/homebrew/bin/d… │ -          │
+│ Docker daemon        │ PASS   │ yes      │ 29.2.1               │ -          │
+│ ZAP image readiness  │ PASS   │ yes      │ zaproxy/zap-stable   │ -          │
+│                      │        │          │ is available locally │            │
+│                      │        │          │ (legacy image        │            │
+│                      │        │          │ fallback enabled)    │            │
+│ Tool: subfinder      │ PASS   │ yes      │ /opt/homebrew/bin/s… │ -          │
+│ Tool: httpx          │ PASS   │ yes      │ /opt/homebrew/bin/h… │ -          │
+│                      │        │          │ (using fallback;     │            │
+│                      │        │          │ PATH resolves to     │            │
+│                      │        │          │ /Users/sagarkishore… │            │
+│                      │        │          │ Tools/Web-Recon-eXe… │            │
+│ Tool: katana         │ PASS   │ yes      │ /opt/homebrew/bin/k… │ -          │
+│ Tool: nuclei         │ PASS   │ yes      │ /opt/homebrew/bin/n… │ -          │
+│ Tool: ffuf           │ PASS   │ yes      │ /opt/homebrew/bin/f… │ -          │
+│ Juice Shop reachable │ PASS   │ yes      │ http://localhost:30… │ -          │
+│                      │        │          │ (HTTP 200)           │            │
+└──────────────────────┴────────┴──────────┴──────────────────────┴────────────┘
+Doctor status: all required checks passed</pre>
+    </section>
+
+    <section class="card panel">
+      <h1>WRX CLI Demo</h1>
+      <p class="sub">Safe localhost run against OWASP Juice Shop. This screenshot is generated from live command output and latest run metrics.</p>
+      <div class="cmd">$ wrx doctor --strict</div>
+      <div class="cmd">$ wrx demo juice-shop --no-open</div>
+      <div class="kpis">
+        <div class="kpi"><div class="label">Run ID</div><div class="val" style="font-size:18px">20260225T065122891Z</div></div>
+        <div class="kpi"><div class="label">Alive Hosts</div><div class="val">1</div></div>
+        <div class="kpi"><div class="label">URLs</div><div class="val">6</div></div>
+        <div class="kpi"><div class="label">ZAP Findings</div><div class="val">12</div></div>
+      </div>
+      <p class="footer">Only scan targets you own or have permission to test.</p>
+    </section>
+  </div>
+</body>
+</html>

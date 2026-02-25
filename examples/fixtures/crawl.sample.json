@@ -1,0 +1,17 @@
+{
+  "status": "completed",
+  "urls": [
+    {
+      "url": "https://app.example.com/login",
+      "source_stage": "crawl",
+      "discovered_at": "2026-02-19T07:10:00+00:00",
+      "hash": "438626e7c245e88d6dcf6f7da8c66e39f76f3af8"
+    },
+    {
+      "url": "https://app.example.com/dashboard",
+      "source_stage": "crawl",
+      "discovered_at": "2026-02-19T07:10:03+00:00",
+      "hash": "5f4257ae68376955913ac988f486f3364d6ef252"
+    }
+  ]
+}

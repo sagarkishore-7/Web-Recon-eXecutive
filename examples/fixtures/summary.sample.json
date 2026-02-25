@@ -1,0 +1,73 @@
+{
+  "metadata": {
+    "target": "example.com",
+    "timestamp": "2026-02-19T07:16:00+00:00",
+    "preset": "bounty",
+    "run_id": "20260219T071600Z",
+    "tool_versions": {
+      "subfinder": "v2.x",
+      "httpx": "v1.x",
+      "katana": "v1.x",
+      "ffuf": "v2.x",
+      "nuclei": "v3.x"
+    }
+  },
+  "subdomains": [
+    "api.example.com",
+    "app.example.com",
+    "www.example.com"
+  ],
+  "alive_hosts": [
+    {
+      "url": "https://app.example.com",
+      "status_code": 200,
+      "title": "Example App",
+      "tech": ["nginx", "react"],
+      "hash": "2f6ca537f3d64001f70c45d467a98ca7d95f4ef6"
+    },
+    {
+      "url": "https://api.example.com",
+      "status_code": 401,
+      "title": "Unauthorized",
+      "tech": ["fastapi"],
+      "hash": "f539387a010ce0034ef57b4d4ef3f529f16e6762"
+    }
+  ],
+  "urls": [
+    {
+      "url": "https://app.example.com/login",
+      "source_stage": "crawl",
+      "discovered_at": "2026-02-19T07:10:00+00:00",
+      "hash": "438626e7c245e88d6dcf6f7da8c66e39f76f3af8"
+    },
+    {
+      "url": "https://app.example.com/dashboard",
+      "source_stage": "crawl",
+      "discovered_at": "2026-02-19T07:10:03+00:00",
+      "hash": "5f4257ae68376955913ac988f486f3364d6ef252"
+    },
+    {
+      "url": "https://app.example.com/admin",
+      "source_stage": "fuzz",
+      "discovered_at": "2026-02-19T07:12:10+00:00",
+      "hash": "f0b9128aade9b90f4d2d2afa7de4fef2f0e56d4a"
+    }
+  ],
+  "nuclei_findings": [
+    {
+      "template_id": "misconfig/cors-wildcard",
+      "severity": "medium",
+      "name": "Wildcard CORS",
+      "matched_at": "https://api.example.com",
+      "extracted_results": ["Access-Control-Allow-Origin: *"],
+      "timestamp": "2026-02-19T07:15:00+00:00",
+      "hash": "f9e0360f4ef8adf1a339cf105c95771879c8ca1a"
+    }
+  ],
+  "counts": {
+    "subdomains": 3,
+    "alive_hosts": 2,
+    "urls": 3,
+    "nuclei_findings": 1
+  }
+}

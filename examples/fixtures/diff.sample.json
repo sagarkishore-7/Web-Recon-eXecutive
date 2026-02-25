@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "current_run": "20260219T071600Z",
+    "previous_run": "20260218T220000Z",
+    "compared_at": "2026-02-19T07:20:00+00:00",
+    "last": 1
+  },
+  "changes": {
+    "subdomains": {
+      "new": ["api.example.com"],
+      "removed": []
+    },
+    "alive_hosts": {
+      "new": ["https://api.example.com"],
+      "removed": []
+    },
+    "urls": {
+      "new": ["https://app.example.com/admin"],
+      "removed": []
+    },
+    "nuclei_findings": {
+      "new": ["misconfig/cors-wildcard::https://api.example.com"],
+      "removed": []
+    }
+  }
+}

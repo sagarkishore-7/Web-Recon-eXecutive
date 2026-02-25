@@ -1,0 +1,32 @@
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ WRX  |  Web Recon eXecutive                                                  │
+│ v0.1.2  •  Safe-by-default recon orchestration                               │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Only scan targets you own or have permission to test.
+                                   WRX Doctor                                   
+┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Check                ┃ Status ┃ Required ┃ Details              ┃ How To Fix ┃
+┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ Python version       │ PASS   │ yes      │ 3.9.6                │ -          │
+│ WRX version          │ PASS   │ yes      │ 0.1.2                │ -          │
+│ Workspace write      │ PASS   │ yes      │ /Users/sagarkishore… │ -          │
+│ access               │        │          │ Tools/Web-Recon-eXe… │            │
+│ Tool: docker         │ PASS   │ yes      │ /opt/homebrew/bin/d… │ -          │
+│ Docker daemon        │ PASS   │ yes      │ 29.2.1               │ -          │
+│ ZAP image readiness  │ PASS   │ yes      │ zaproxy/zap-stable   │ -          │
+│                      │        │          │ is available locally │            │
+│                      │        │          │ (legacy image        │            │
+│                      │        │          │ fallback enabled)    │            │
+│ Tool: subfinder      │ PASS   │ yes      │ /opt/homebrew/bin/s… │ -          │
+│ Tool: httpx          │ PASS   │ yes      │ /opt/homebrew/bin/h… │ -          │
+│                      │        │          │ (using fallback;     │            │
+│                      │        │          │ PATH resolves to     │            │
+│                      │        │          │ /Users/sagarkishore… │            │
+│                      │        │          │ Tools/Web-Recon-eXe… │            │
+│ Tool: katana         │ PASS   │ yes      │ /opt/homebrew/bin/k… │ -          │
+│ Tool: nuclei         │ PASS   │ yes      │ /opt/homebrew/bin/n… │ -          │
+│ Tool: ffuf           │ PASS   │ yes      │ /opt/homebrew/bin/f… │ -          │
+│ Juice Shop reachable │ PASS   │ yes      │ http://localhost:30… │ -          │
+│                      │        │          │ (HTTP 200)           │            │
+└──────────────────────┴────────┴──────────┴──────────────────────┴────────────┘
+Doctor status: all required checks passed
